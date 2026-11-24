@@ -1,0 +1,3809 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7f5">
+  <title>AI 学习与职业工作台 · 四川大学人工智能</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f5;
+      --surface: #ffffff;
+      --surface-soft: #eef1ee;
+      --surface-mute: #fafbfa;
+      --text: #1e2521;
+      --text-2: #414c45;
+      --muted: #6d7770;
+      --faint: #8d968f;
+      --line: #e1e6e1;
+      --line-soft: #edf1ed;
+      --green: #26714f;
+      --green-strong: #1c5a3e;
+      --green-soft: #e5f1ea;
+      --blue: #3c6491;
+      --blue-soft: #e8eff6;
+      --amber: #9c5f13;
+      --amber-soft: #fbf0e0;
+      --red: #ab4038;
+      --red-soft: #f9eae8;
+      --violet: #6a4a92;
+      --violet-soft: #f0eaf7;
+      --teal: #1f6f76;
+      --teal-soft: #e4f2f3;
+      --shadow-sm: 0 1px 2px rgb(24 39 29 / 5%);
+      --shadow-md: 0 6px 20px rgb(24 39 29 / 8%);
+      --shadow-lg: 0 18px 48px rgb(18 30 22 / 18%);
+      --radius: 8px;
+      --radius-sm: 5px;
+      --sidebar-w: 244px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #141715;
+      --surface: #1c211e;
+      --surface-soft: #262c28;
+      --surface-mute: #191d1b;
+      --text: #e9ede9;
+      --text-2: #c3cbc5;
+      --muted: #98a29b;
+      --faint: #7f8983;
+      --line: #2e3531;
+      --line-soft: #262c28;
+      --green: #5fbd8e;
+      --green-strong: #7ccda4;
+      --green-soft: #1e2f26;
+      --blue: #7ba7d4;
+      --blue-soft: #1e2833;
+      --amber: #dda459;
+      --amber-soft: #302719;
+      --red: #e0897f;
+      --red-soft: #33211f;
+      --violet: #b79bdd;
+      --violet-soft: #272130;
+      --teal: #6cc0c6;
+      --teal-soft: #182a2c;
+      --shadow-sm: 0 1px 2px rgb(0 0 0 / 30%);
+      --shadow-md: 0 6px 20px rgb(0 0 0 / 35%);
+      --shadow-lg: 0 18px 48px rgb(0 0 0 / 55%);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, textarea, select { font: inherit; color: inherit; }
+    button { color: inherit; cursor: pointer; }
+    a { color: var(--blue); }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+    }
+
+    /* ---------- sidebar ---------- */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 18px 12px 14px;
+      background: var(--surface);
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow-y: auto;
+    }
+
+    .brand { display: flex; align-items: center; gap: 11px; padding: 0 8px 4px; }
+    .brand-mark {
+      width: 36px; height: 36px; flex: none;
+      display: grid; place-items: center;
+      border-radius: 10px;
+      color: #fff;
+      background: linear-gradient(140deg, var(--green), var(--teal));
+      font-size: 15px; font-weight: 750; letter-spacing: .02em;
+    }
+    .brand-name { font-size: 13.5px; font-weight: 700; line-height: 1.25; }
+    .brand-caption { color: var(--faint); font-size: 10px; letter-spacing: .06em; }
+
+    .nav-group { margin-bottom: 4px; }
+    .nav-label {
+      margin: 6px 10px 5px;
+      color: var(--faint);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+
+    .nav { display: grid; gap: 2px; }
+    .nav button {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+      border-radius: var(--radius-sm);
+      color: var(--text-2);
+      font-size: 13px;
+      transition: background .12s ease, color .12s ease;
+    }
+    .nav button:hover { background: var(--surface-soft); }
+    .nav button.active { color: var(--green); background: var(--green-soft); font-weight: 650; }
+    .nav-icon { width: 18px; text-align: center; font-size: 14px; flex: none; }
+    .nav-badge {
+      margin-left: auto;
+      padding: 1px 6px;
+      border-radius: 20px;
+      background: var(--surface-soft);
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 650;
+    }
+    .nav button.active .nav-badge { background: var(--surface); color: var(--green); }
+
+    .side-note {
+      margin-top: auto;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface-mute);
+      font-size: 11px;
+    }
+    .side-note strong { display: block; margin-bottom: 3px; font-size: 11.5px; }
+    .side-note span { color: var(--muted); display: block; }
+    .side-note .side-line { margin-top: 6px; }
+
+    /* ---------- main ---------- */
+    .main { min-width: 0; display: flex; flex-direction: column; }
+    .topbar {
+      position: sticky; top: 0; z-index: 6;
+      height: 58px;
+      padding: 0 26px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: color-mix(in srgb, var(--surface) 88%, transparent);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .breadcrumb { color: var(--muted); font-size: 12px; }
+    .breadcrumb b { color: var(--text); font-weight: 650; }
+    .top-actions { display: flex; align-items: center; gap: 8px; }
+
+    .content {
+      width: min(1240px, 100%);
+      margin: 0 auto;
+      padding: 24px 26px 64px;
+    }
+
+    .page-head {
+      margin-bottom: 18px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    h1 { margin: 0 0 4px; font-size: 22px; line-height: 1.3; letter-spacing: -.01em; }
+    .subtitle { margin: 0; color: var(--muted); font-size: 12.5px; max-width: 78ch; }
+    h2 { margin: 0; font-size: 14.5px; }
+    h3 { margin: 0; font-size: 13px; }
+    h4 { margin: 0; font-size: 12px; }
+
+    /* ---------- buttons ---------- */
+    .button {
+      min-height: 32px;
+      padding: 6px 11px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--text-2);
+      font-size: 12.5px;
+      white-space: nowrap;
+      transition: background .12s ease, border-color .12s ease;
+    }
+    .button:hover { background: var(--surface-soft); }
+    .button.primary { color: #fff; background: var(--green); border-color: var(--green); }
+    .button.primary:hover { background: var(--green-strong); border-color: var(--green-strong); }
+    .button.small { min-height: 27px; padding: 4px 8px; font-size: 11.5px; }
+    .button.icon { width: 30px; min-height: 30px; padding: 0; font-size: 14px; }
+    .button.icon.small { width: 24px; min-height: 24px; font-size: 12px; }
+    .button.danger { color: var(--red); }
+    .button.danger:hover { background: var(--red-soft); }
+    .button.ghost { border-color: transparent; background: transparent; }
+    .button.ghost:hover { background: var(--surface-soft); }
+    .button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+      outline: 2px solid color-mix(in srgb, var(--green) 55%, transparent);
+      outline-offset: 2px;
+    }
+    .btn-row { display: flex; gap: 7px; flex-wrap: wrap; }
+
+    /* ---------- grid & panels ---------- */
+    .grid { display: grid; gap: 13px; }
+    .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 13px; }
+    .stats-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .two-col { grid-template-columns: minmax(0, 1.35fr) minmax(280px, .85fr); }
+    .two-col-even { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .three-col { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .four-col { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .panel, .stat-card {
+      min-width: 0;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+    }
+    .panel { padding: 16px; }
+    .panel-head {
+      margin-bottom: 13px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .panel-subtitle { margin-top: 3px; color: var(--muted); font-size: 11.5px; }
+    .panel-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+
+    .stat-card { padding: 14px 15px; display: flex; flex-direction: column; gap: 6px; }
+    .stat-label { color: var(--muted); font-size: 11.5px; display: flex; align-items: center; gap: 5px; }
+    .stat-value { font-size: 24px; line-height: 1.05; font-weight: 720; letter-spacing: -.02em; }
+    .stat-value .unit { font-size: 13px; font-weight: 500; color: var(--muted); }
+    .stat-hint { color: var(--muted); font-size: 11px; }
+    .stat-card.accent-green { border-left: 3px solid var(--green); }
+    .stat-card.accent-blue { border-left: 3px solid var(--blue); }
+    .stat-card.accent-amber { border-left: 3px solid var(--amber); }
+    .stat-card.accent-violet { border-left: 3px solid var(--violet); }
+
+    .section-gap { margin-top: 13px; }
+    .empty { padding: 20px 8px; text-align: center; color: var(--muted); font-size: 12px; }
+
+    /* ---------- progress ---------- */
+    .progress-track { height: 7px; overflow: hidden; background: var(--surface-soft); border-radius: 20px; }
+    .progress-fill { height: 100%; background: var(--green); border-radius: inherit; transition: width .25s ease; }
+    .progress-fill.blue { background: var(--blue); }
+    .progress-fill.amber { background: var(--amber); }
+    .progress-fill.violet { background: var(--violet); }
+    .progress-legend { margin-top: 7px; display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; }
+
+    .ring-wrap { display: flex; align-items: center; gap: 13px; }
+    .ring { flex: none; }
+    .ring-label { font-size: 11px; color: var(--muted); }
+
+    /* ---------- tags ---------- */
+    .tag {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 7px;
+      border-radius: 20px;
+      background: var(--surface-soft);
+      color: var(--text-2);
+      font-size: 10.5px;
+      font-weight: 550;
+      white-space: nowrap;
+    }
+    .tag.green { background: var(--green-soft); color: var(--green); }
+    .tag.blue { background: var(--blue-soft); color: var(--blue); }
+    .tag.amber { background: var(--amber-soft); color: var(--amber); }
+    .tag.red { background: var(--red-soft); color: var(--red); }
+    .tag.violet { background: var(--violet-soft); color: var(--violet); }
+    .tag.teal { background: var(--teal-soft); color: var(--teal); }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 5px; }
+
+    /* ---------- rows / lists ---------- */
+    .list { display: grid; }
+    .row {
+      padding: 9px 0;
+      display: grid;
+      align-items: center;
+      gap: 10px;
+      border-top: 1px solid var(--line-soft);
+    }
+    .row:first-child { border-top: 0; }
+    .row-cb { grid-template-columns: 20px minmax(0, 1fr) auto; }
+    .row-cb2 { grid-template-columns: 20px minmax(0, 1fr) auto auto; }
+    .row-title { font-size: 12.5px; font-weight: 600; }
+    .row-title.done { color: var(--faint); text-decoration: line-through; font-weight: 500; }
+    .row-detail { margin-top: 2px; color: var(--muted); font-size: 11px; }
+    .row-side { display: flex; align-items: center; gap: 6px; }
+    input[type="checkbox"] { accent-color: var(--green); width: 15px; height: 15px; cursor: pointer; }
+    input[type="range"] { width: 100%; accent-color: var(--green); }
+
+    /* ---------- skills ---------- */
+    .skill-row {
+      display: grid;
+      grid-template-columns: 132px minmax(80px, 1fr) 60px;
+      align-items: center;
+      gap: 11px;
+      padding: 8px 0;
+      border-top: 1px solid var(--line-soft);
+    }
+    .skill-row:first-child { border-top: 0; }
+    .skill-name { font-size: 12px; display: flex; align-items: center; gap: 5px; }
+    .skill-score { color: var(--muted); text-align: right; font-size: 11px; font-variant-numeric: tabular-nums; }
+    .radar-box { display: grid; place-items: center; }
+
+    /* ---------- charts ---------- */
+    .bars { display: flex; align-items: flex-end; gap: 8px; height: 128px; padding-top: 6px; }
+    .bar-col { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 5px; height: 100%; }
+    .bar-track { width: 100%; max-width: 44px; flex: 1; display: flex; align-items: flex-end; border-radius: 5px 5px 0 0; background: var(--surface-soft); }
+    .bar-fill { width: 100%; border-radius: 5px 5px 0 0; background: var(--green); min-height: 3px; transition: height .25s ease; }
+    .bar-fill.soft { background: color-mix(in srgb, var(--green) 35%, var(--surface-soft)); }
+    .bar-label { font-size: 10px; color: var(--muted); white-space: nowrap; }
+    .bar-value { font-size: 10.5px; color: var(--text-2); font-variant-numeric: tabular-nums; }
+
+    /* ---------- habit grid ---------- */
+    .habit-grid { display: grid; grid-template-columns: minmax(110px, 1.4fr) repeat(7, minmax(30px, 1fr)) 52px; gap: 5px; align-items: center; }
+    .habit-head { font-size: 10.5px; color: var(--muted); text-align: center; font-weight: 600; }
+    .habit-head.today { color: var(--green); }
+    .habit-name { font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .habit-cell {
+      aspect-ratio: 1 / 1;
+      min-height: 26px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      display: grid; place-items: center;
+      font-size: 11px; color: var(--faint);
+    }
+    .habit-cell:hover { border-color: var(--green); }
+    .habit-cell.on { background: var(--green); border-color: var(--green); color: #fff; }
+    .habit-cell.today { box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--green) 30%, transparent); }
+    .habit-streak { font-size: 11px; color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+
+    /* ---------- timeline ---------- */
+    .timeline { position: relative; padding-left: 22px; display: grid; gap: 2px; }
+    .timeline::before {
+      content: ""; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 2px;
+      background: var(--line); border-radius: 2px;
+    }
+    .tl-item { position: relative; padding: 8px 0 10px; }
+    .tl-dot {
+      position: absolute; left: -22px; top: 13px;
+      width: 11px; height: 11px; border-radius: 50%;
+      background: var(--surface); border: 2.5px solid var(--line);
+    }
+    .tl-item.done .tl-dot { background: var(--green); border-color: var(--green); }
+    .tl-item.soon .tl-dot { border-color: var(--amber); background: var(--amber); }
+    .tl-item.overdue .tl-dot { border-color: var(--red); background: var(--red); }
+    .tl-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .tl-date { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .tl-count { font-size: 10.5px; }
+
+    /* ---------- cards ---------- */
+    .card {
+      display: flex; flex-direction: column;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      min-width: 0;
+    }
+    .card.selected { border-color: color-mix(in srgb, var(--green) 55%, var(--line)); background: color-mix(in srgb, var(--green-soft) 45%, var(--surface)); }
+    .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .card p { margin: 8px 0 10px; color: var(--muted); font-size: 11.5px; flex: 1; }
+    .card-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
+
+    /* ---------- tables ---------- */
+    .table-wrap { overflow-x: auto; margin: 0 -4px; }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th, td { padding: 8px 8px; border-bottom: 1px solid var(--line-soft); vertical-align: middle; }
+    th { color: var(--muted); font-size: 10.5px; font-weight: 650; white-space: nowrap; }
+    td { font-size: 11.5px; }
+    tbody tr:hover { background: var(--surface-mute); }
+    td input, td select { width: 100%; min-width: 76px; padding: 5px 6px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); font-size: 11.5px; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .tfoot td { border-bottom: 0; border-top: 2px solid var(--line); font-weight: 650; }
+    .col-tight { width: 46px; }
+
+    /* ---------- forms ---------- */
+    .field { display: grid; gap: 4px; min-width: 0; }
+    .field label { color: var(--text-2); font-size: 11px; font-weight: 600; }
+    .field input, .field textarea, .field select {
+      width: 100%; min-width: 0; padding: 7px 9px;
+      border: 1px solid var(--line); border-radius: var(--radius-sm);
+      background: var(--surface); font-size: 12.5px;
+    }
+    .field textarea { min-height: 74px; resize: vertical; line-height: 1.5; }
+    .field .hint { color: var(--faint); font-size: 10.5px; }
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .form-grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .span-2 { grid-column: 1 / -1; }
+    .form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 11px; }
+    .inline-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; }
+
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+    .toolbar .field { flex: 0 1 200px; }
+    .search { display: flex; align-items: center; gap: 6px; padding: 5px 9px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); }
+    .search input { border: 0; background: transparent; outline: none; width: 100%; font-size: 12.5px; }
+
+    /* ---------- modal ---------- */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 40;
+      background: rgb(14 22 17 / 45%);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-backdrop.show { display: flex; }
+    .modal {
+      width: min(520px, 100%);
+      max-height: min(84vh, 760px);
+      overflow-y: auto;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: var(--shadow-lg);
+      padding: 18px;
+    }
+    .modal h2 { font-size: 16px; }
+    .modal-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+
+    /* ---------- timer ---------- */
+    .timer-widget {
+      position: fixed; right: 18px; bottom: 18px; z-index: 30;
+      width: 232px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: var(--shadow-md);
+      padding: 13px;
+      display: none;
+    }
+    .timer-widget.show { display: block; }
+    .timer-time { font-size: 33px; font-weight: 700; text-align: center; font-variant-numeric: tabular-nums; letter-spacing: -.02em; line-height: 1.1; }
+    .timer-phase { text-align: center; color: var(--muted); font-size: 11px; margin-top: 2px; }
+    .timer-ring { display: block; margin: 6px auto 4px; }
+    .timer-actions { display: flex; gap: 6px; justify-content: center; margin-top: 9px; }
+    .timer-meta { margin-top: 9px; padding-top: 9px; border-top: 1px solid var(--line-soft); color: var(--muted); font-size: 10.5px; text-align: center; }
+
+    /* ---------- toast ---------- */
+    .toast {
+      position: fixed; left: 50%; bottom: 22px; z-index: 60;
+      transform: translate(-50%, 10px);
+      padding: 9px 15px;
+      border-radius: 20px;
+      background: #22322a;
+      color: #fff;
+      box-shadow: var(--shadow-md);
+      font-size: 12.5px;
+      opacity: 0; pointer-events: none;
+      transition: .18s ease;
+      max-width: 82vw;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    .kbd { padding: 1px 5px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; background: var(--surface-mute); font-size: 10.5px; font-family: ui-monospace, monospace; }
+    .sep { height: 1px; background: var(--line-soft); margin: 12px 0; }
+    .note-text { white-space: pre-wrap; font-size: 12px; color: var(--text-2); }
+    .mobile-menu { display: none; }
+    .muted { color: var(--muted); }
+    .nowrap { white-space: nowrap; }
+    .right { text-align: right; }
+    .center { text-align: center; }
+    .scroll-y { max-height: 340px; overflow-y: auto; }
+    .scroll-y-sm { max-height: 240px; overflow-y: auto; }
+
+    @media (max-width: 1080px) {
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .three-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .four-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 196px minmax(0, 1fr); }
+      .content { padding-inline: 18px; }
+      .topbar { padding-inline: 18px; }
+      .two-col, .two-col-even { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 680px) {
+      .app { display: block; }
+      .sidebar {
+        position: fixed; z-index: 20; top: 0; left: 0; width: 258px;
+        transform: translateX(-103%); transition: transform .2s ease;
+        box-shadow: 12px 0 34px rgb(0 0 0 / 12%);
+      }
+      .sidebar.open { transform: translateX(0); }
+      .topbar { height: 54px; padding-inline: 12px; }
+      .mobile-menu { display: inline-flex; }
+      .breadcrumb { display: none; }
+      .content { padding: 18px 12px 56px; }
+      h1 { font-size: 19px; }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .three-col, .four-col, .form-grid, .form-grid.cols-3 { grid-template-columns: 1fr; }
+      .span-2 { grid-column: auto; }
+      .stat-value { font-size: 20px; }
+      .skill-row { grid-template-columns: 96px minmax(60px, 1fr) 46px; gap: 7px; }
+      .habit-grid { grid-template-columns: minmax(72px, 1.2fr) repeat(7, minmax(24px, 1fr)) 40px; gap: 3px; }
+      .timer-widget { right: 10px; left: 10px; width: auto; }
+    }
+    @media print {
+      .sidebar, .topbar, .timer-widget, .toast { display: none !important; }
+      .app { display: block; }
+      .content { padding: 0; }
+      .panel, .stat-card, .card { break-inside: avoid; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">AI</div>
+        <div>
+          <div class="brand-name">AI 学习与职业工作台</div>
+          <div class="brand-caption">SCU · ARTIFICIAL INTELLIGENCE</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="nav-label">概览</div>
+        <nav class="nav" aria-label="概览">
+          <button data-page="overview" class="active"><span class="nav-icon">▦</span>总览</button>
+        </nav>
+      </div>
+
+      <div>
+        <div class="nav-label">学业</div>
+        <nav class="nav" aria-label="学业">
+          <button data-page="courses"><span class="nav-icon">▤</span>课程与绩点</button>
+          <button data-page="roadmap"><span class="nav-icon">☷</span>学习路线</button>
+          <button data-page="skills"><span class="nav-icon">◉</span>能力雷达</button>
+        </nav>
+      </div>
+
+      <div>
+        <div class="nav-label">实践</div>
+        <nav class="nav" aria-label="实践">
+          <button data-page="projects"><span class="nav-icon">◇</span>项目作品集</button>
+          <button data-page="competitions"><span class="nav-icon">★</span>竞赛与科研</button>
+          <button data-page="papers"><span class="nav-icon">▥</span>论文阅读</button>
+        </nav>
+      </div>
+
+      <div>
+        <div class="nav-label">规划</div>
+        <nav class="nav" aria-label="规划">
+          <button data-page="weekly"><span class="nav-icon">✎</span>每周计划<span class="nav-badge" id="navBadgeWeekly">0</span></button>
+          <button data-page="timelog"><span class="nav-icon">◔</span>时间与习惯</button>
+          <button data-page="milestones"><span class="nav-icon">⏱</span>里程碑</button>
+        </nav>
+      </div>
+
+      <div>
+        <div class="nav-label">发展</div>
+        <nav class="nav" aria-label="发展">
+          <button data-page="directions"><span class="nav-icon">⌕</span>职业方向</button>
+          <button data-page="english"><span class="nav-icon">A</span>英语与标化</button>
+        </nav>
+      </div>
+
+      <div>
+        <div class="nav-label">工具</div>
+        <nav class="nav" aria-label="工具">
+          <button data-page="notes"><span class="nav-icon">✐</span>知识笔记</button>
+          <button data-page="settings"><span class="nav-icon">⚙</span>数据与设置</button>
+        </nav>
+      </div>
+
+      <div class="side-note">
+        <strong id="profileName">四川大学 · 人工智能</strong>
+        <span id="profileYear">大一 · 江安校区</span>
+        <span class="side-line" id="profileWeek">—</span>
+        <span class="side-line" id="profileSaved">数据保存在本机浏览器</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="top-actions">
+          <button class="button icon mobile-menu" id="menuButton" aria-label="打开导航" title="打开导航">☰</button>
+          <span class="breadcrumb">工作台&nbsp;/&nbsp;<b id="breadcrumbCurrent">总览</b></span>
+        </div>
+        <div class="top-actions">
+          <button class="button small" id="timerToggle" title="番茄钟">⏻ <span class="export-label">专注</span></button>
+          <button class="button small" id="themeToggle" title="切换深浅色">◐</button>
+          <button class="button small" id="exportButton" title="导出全部数据为 JSON">⇩ <span class="export-label">导出</span></button>
+          <button class="button small primary" id="quickAdd" title="快速添加">＋ 新建</button>
+        </div>
+      </header>
+
+      <div class="content" id="content"></div>
+    </main>
+  </div>
+
+  <div class="timer-widget" id="timerWidget" aria-live="polite">
+    <div class="timer-phase" id="timerPhase">专注 25 分钟</div>
+    <div class="timer-time" id="timerTime">25:00</div>
+    <svg class="timer-ring" width="72" height="72" viewBox="0 0 72 72" aria-hidden="true">
+      <circle cx="36" cy="36" r="30" fill="none" stroke="var(--surface-soft)" stroke-width="6"></circle>
+      <circle id="timerRing" cx="36" cy="36" r="30" fill="none" stroke="var(--green)" stroke-width="6"
+              stroke-linecap="round" stroke-dasharray="188.5" stroke-dashoffset="0"
+              transform="rotate(-90 36 36)"></circle>
+    </svg>
+    <div class="timer-actions">
+      <button class="button small primary" id="timerStartPause">开始</button>
+      <button class="button small" id="timerReset">重置</button>
+      <button class="button small" id="timerLog" title="把本轮专注计入时间账本">记一笔</button>
+    </div>
+    <div class="field" style="margin-top:9px">
+      <select id="timerDuration" aria-label="专注时长">
+        <option value="25">专注 25 分钟（标准）</option>
+        <option value="15">专注 15 分钟（碎片时间）</option>
+        <option value="45">专注 45 分钟（深度）</option>
+        <option value="50">专注 50 分钟（长时段）</option>
+      </select>
+    </div>
+    <div class="timer-meta" id="timerMeta">今日专注 0 分钟</div>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+  </div>
+
+  <!-- 全局隐藏的文件选择框：必须存在于静态 DOM，
+       否则 boot() 在首屏 render() 之前绑定会取到 null，导致整页白屏 -->
+  <input type="file" id="importFile" accept="application/json,.json" style="display:none" aria-hidden="true">
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+  "use strict";
+  /* ============================================================
+     1. 常量与工具
+     ============================================================ */
+  const STORAGE_KEY = "scu-ai-workbench-v2";
+  const LEGACY_KEYS = ["scu-ai-career-workbench-v1"];
+  const LEVELS = ["未接触", "知道概念", "能跟做", "能独立完成", "能优化改进", "能讲解/创新"];
+  const COURSE_TYPES = ["必修", "选修", "通识", "实践"];
+  const COURSE_STATUS = ["进行中", "已完成", "计划中"];
+  const PROJECT_STATUS = ["构思", "进行中", "已完成", "已暂停"];
+  const PRIORITIES = ["高", "中", "低"];
+  const COMP_STATUS = ["待报名", "备赛中", "已参赛", "已结束"];
+  const PAPER_STATUS = ["待读", "在读", "已读", "精读"];
+  const PHASES = ["数学", "编程", "基础", "数据", "AI", "实践", "英语", "科研", "求职"];
+
+  function uid() {
+    return Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-4);
+  }
+  function clamp(n, lo, hi) { return Math.min(hi, Math.max(lo, Number(n) || 0)); }
+  function round(n, d = 2) { const p = 10 ** d; return Math.round((Number(n) || 0) * p) / p; }
+  function pad2(n) { return String(n).padStart(2, "0"); }
+
+  function toISO(date) {
+    const d = date instanceof Date ? date : new Date(date);
+    return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+  }
+  function todayISO() { return toISO(new Date()); }
+
+  function parseISO(s) {
+    if (!s) return null;
+    const m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return null;
+    const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+    return Number.isNaN(d.getTime()) ? null : d;
+  }
+  function daysFromToday(iso) {
+    const d = parseISO(iso);
+    if (!d) return null;
+    const t = new Date();
+    const a = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const b = new Date(t.getFullYear(), t.getMonth(), t.getDate());
+    return Math.round((a - b) / 86400000);
+  }
+  function fmtDate(iso, withWeek = false) {
+    const d = parseISO(iso);
+    if (!d) return "—";
+    const w = ["日", "一", "二", "三", "四", "五", "六"][d.getDay()];
+    return `${d.getMonth() + 1}月${d.getDate()}日${withWeek ? ` 周${w}` : ""}`;
+  }
+  function escapeHtml(value = "") {
+    return String(value).replace(/[&<>"']/g, c => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    })[c]);
+  }
+  function num(v, fallback = 0) {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : fallback;
+  }
+  function sortByDate(list, key = "date", dir = 1) {
+    return [...list].sort((a, b) => {
+      const da = parseISO(a[key]), db = parseISO(b[key]);
+      if (!da && !db) return 0;
+      if (!da) return 1;
+      if (!db) return -1;
+      return (da - db) * dir;
+    });
+  }
+
+  /* 百分制 -> 4.0 绩点（国内高校常见换算表，可在设置中切换为原始百分制参考） */
+  const GPA_TABLE = [
+    { min: 90, gp: 4.0 }, { min: 85, gp: 3.7 }, { min: 82, gp: 3.3 }, { min: 78, gp: 3.0 },
+    { min: 75, gp: 2.7 }, { min: 72, gp: 2.3 }, { min: 68, gp: 2.0 }, { min: 64, gp: 1.5 },
+    { min: 60, gp: 1.0 }, { min: 0, gp: 0 }
+  ];
+  function scoreToGp(score) {
+    const s = num(score, -1);
+    if (s < 0) return 0;
+    for (const row of GPA_TABLE) if (s >= row.min) return row.gp;
+    return 0;
+  }
+
+  /* 学期：由入学年份推导，共 8 个学期 */
+  function termList(enrollYear) {
+    const y0 = num(enrollYear, new Date().getFullYear());
+    const grades = ["大一", "大二", "大三", "大四"];
+    const out = [];
+    for (let i = 0; i < 4; i++) {
+      out.push({ id: `${y0 + i}-秋`, label: `${grades[i]}上`, sub: `${y0 + i} 秋`, year: y0 + i, half: "秋", index: i * 2 });
+      out.push({ id: `${y0 + i + 1}-春`, label: `${grades[i]}下`, sub: `${y0 + i + 1} 春`, year: y0 + i + 1, half: "春", index: i * 2 + 1 });
+    }
+    return out;
+  }
+  function termIndex(enrollYear, termId) {
+    const list = termList(enrollYear);
+    const hit = list.find(t => t.id === termId);
+    return hit ? hit.index : 0;
+  }
+  function currentTermId(enrollYear) {
+    const now = new Date();
+    const y = now.getFullYear(), m = now.getMonth() + 1;
+    let year, half;
+    /* 秋季学期约 9 月—次年 1 月；春季学期约 2 月—7 月 */
+    if (m >= 9 && m <= 12) { half = "秋"; year = y; }
+    else if (m === 1) { half = "秋"; year = y - 1; }
+    else { half = "春"; year = y; }
+    const y0 = num(enrollYear, y);
+    /* 大一下起，春季学期落在入学年份 +1，因此春学期索引要减一 */
+    let idx = half === "秋" ? (year - y0) * 2 : (year - y0) * 2 - 1;
+    idx = Math.min(7, Math.max(0, idx));
+    const list = termList(y0);
+    return list[idx] ? list[idx].id : `${y0}-秋`;
+  }
+
+  /* ============================================================
+     2. 默认数据
+     ============================================================ */
+  function defaultData() {
+    const ENROLL = 2026;
+    const terms = termList(ENROLL);
+    const T = i => terms[i].id;
+
+    return {
+      version: 2,
+      profile: {
+        name: "",
+        school: "四川大学",
+        college: "计算机学院",
+        major: "人工智能",
+        grade: "大一",
+        campus: "江安校区",
+        enrollYear: ENROLL,
+        weeklyHours: 15,
+        target: "打牢数学与编程基础，通过课程项目确认兴趣方向",
+        gpaGoal: 3.8,
+        advisor: ""
+      },
+      settings: { theme: "light", showDone: true },
+
+      courses: [
+        { id: uid(), name: "高等数学（上）", term: T(0), credits: 5, type: "必修", score: null, status: "进行中", teacher: "" },
+        { id: uid(), name: "线性代数", term: T(0), credits: 3, type: "必修", score: null, status: "进行中", teacher: "" },
+        { id: uid(), name: "程序设计基础（C 语言）", term: T(0), credits: 4, type: "必修", score: null, status: "进行中", teacher: "" },
+        { id: uid(), name: "人工智能导论", term: T(0), credits: 2, type: "必修", score: null, status: "进行中", teacher: "" },
+        { id: uid(), name: "计算机科学导论", term: T(0), credits: 2, type: "必修", score: null, status: "进行中", teacher: "" },
+        { id: uid(), name: "大学英语（一）", term: T(0), credits: 3, type: "必修", score: null, status: "进行中", teacher: "" },
+        { id: uid(), name: "思想道德与法治", term: T(0), credits: 3, type: "必修", score: null, status: "进行中", teacher: "" },
+        { id: uid(), name: "体育（一）", term: T(0), credits: 1, type: "必修", score: null, status: "进行中", teacher: "" },
+        { id: uid(), name: "军事理论", term: T(0), credits: 2, type: "必修", score: null, status: "进行中", teacher: "" },
+        { id: uid(), name: "高等数学（下）", term: T(1), credits: 5, type: "必修", score: null, status: "计划中", teacher: "" },
+        { id: uid(), name: "离散数学", term: T(1), credits: 3, type: "必修", score: null, status: "计划中", teacher: "" },
+        { id: uid(), name: "数据结构与算法", term: T(2), credits: 4, type: "必修", score: null, status: "计划中", teacher: "" },
+        { id: uid(), name: "概率论与数理统计", term: T(3), credits: 3, type: "必修", score: null, status: "计划中", teacher: "" },
+        { id: uid(), name: "机器学习", term: T(4), credits: 3, type: "必修", score: null, status: "计划中", teacher: "" }
+      ],
+
+      roadmap: [
+        { id: uid(), term: T(0), phase: "数学", title: "高等数学（上）", detail: "极限、导数、微分中值定理、不定积分与定积分", done: false },
+        { id: uid(), term: T(0), phase: "数学", title: "线性代数", detail: "矩阵运算、行列式、向量空间、特征值基础", done: false },
+        { id: uid(), term: T(0), phase: "编程", title: "C 语言程序设计基础", detail: "语法、流程控制、函数、数组、指针与结构体", done: false },
+        { id: uid(), term: T(0), phase: "基础", title: "Git 与命令行", detail: "版本管理、分支、提交规范、GitHub 仓库与 README", done: false },
+        { id: uid(), term: T(0), phase: "基础", title: "计算机科学导论 / AI 导论", detail: "了解计算机体系、AI 分支与学科地图", done: false },
+        { id: uid(), term: T(0), phase: "英语", title: "CET-4 词汇与听力启动", detail: "每天 30 个词 + 每周 2 篇听力精听", done: false },
+        { id: uid(), term: T(1), phase: "数学", title: "高等数学（下）", detail: "多元函数微积分、重积分、曲线曲面积分、级数", done: false },
+        { id: uid(), term: T(1), phase: "数学", title: "离散数学", detail: "集合、关系、图论、数理逻辑与组合计数", done: false },
+        { id: uid(), term: T(1), phase: "编程", title: "面向对象程序设计", detail: "类与对象、继承多态、异常处理、STL 或 Java 集合", done: false },
+        { id: uid(), term: T(1), phase: "编程", title: "数据结构与算法（上）", detail: "线性表、栈队列、串、树与二叉树、排序入门", done: false },
+        { id: uid(), term: T(1), phase: "编程", title: "Python 与科学计算", detail: "语法进阶、NumPy 数组运算、Matplotlib 可视化", done: false },
+        { id: uid(), term: T(1), phase: "英语", title: "通过 CET-4", detail: "目标 550+，为大二 CET-6 与论文阅读打底", done: false },
+        { id: uid(), term: T(2), phase: "数学", title: "概率论与数理统计", detail: "分布、期望方差、大数定律、参数估计与假设检验", done: false },
+        { id: uid(), term: T(2), phase: "编程", title: "数据结构与算法（下）", detail: "图、查找、动态规划、贪心与复杂度分析", done: false },
+        { id: uid(), term: T(2), phase: "基础", title: "计算机组成原理", detail: "数据表示、运算器、存储层次、指令与流水线", done: false },
+        { id: uid(), term: T(2), phase: "数据", title: "Pandas 数据分析实战", detail: "数据清洗、分组聚合、时间序列与可视化报告", done: false },
+        { id: uid(), term: T(2), phase: "实践", title: "第一次学科竞赛", detail: "蓝桥杯 / 数学建模 / 计算机设计大赛，重在完整参赛", done: false },
+        { id: uid(), term: T(3), phase: "数学", title: "最优化方法", detail: "凸集凸函数、梯度下降、拉格朗日乘子与 KKT 条件", done: false },
+        { id: uid(), term: T(3), phase: "基础", title: "操作系统", detail: "进程线程、调度、内存管理、文件系统与并发", done: false },
+        { id: uid(), term: T(3), phase: "基础", title: "数据库系统", detail: "关系模型、SQL、索引与事务，能设计小型库", done: false },
+        { id: uid(), term: T(3), phase: "AI", title: "机器学习基础", detail: "线性/逻辑回归、决策树、SVM、集成与评估指标", done: false },
+        { id: uid(), term: T(3), phase: "实践", title: "完成第一个完整项目", detail: "问题定义、数据、基线、实验记录、README 与结论", done: false },
+        { id: uid(), term: T(3), phase: "科研", title: "大创 / 科研训练入门", detail: "联系导师、读综述、复现一篇小论文", done: false },
+        { id: uid(), term: T(4), phase: "AI", title: "深度学习与 PyTorch", detail: "反向传播、CNN/RNN/Transformer、训练调参与 GPU 使用", done: false },
+        { id: uid(), term: T(4), phase: "基础", title: "计算机网络", detail: "TCP/IP、HTTP、路由与网络编程基础", done: false },
+        { id: uid(), term: T(4), phase: "AI", title: "专业课方向选修", detail: "计算机视觉 / 自然语言处理 / 语音，至少深入一门", done: false },
+        { id: uid(), term: T(4), phase: "科研", title: "进入实验室或课题", detail: "稳定投入，形成可展示的阶段性成果", done: false },
+        { id: uid(), term: T(5), phase: "AI", title: "模式识别与前沿选修", detail: "强化学习、多模态、大模型基础与应用", done: false },
+        { id: uid(), term: T(5), phase: "实践", title: "暑期实习 / 科研实习", detail: "算法、数据、工程或研究岗，积累真实项目经历", done: false },
+        { id: uid(), term: T(5), phase: "英语", title: "CET-6 / 雅思托福", detail: "按保研、出国或就业路线安排", done: false },
+        { id: uid(), term: T(5), phase: "求职", title: "升学与求职材料准备", detail: "简历、成绩单、作品集、推荐信与目标院校调研", done: false },
+        { id: uid(), term: T(6), phase: "实践", title: "毕业设计开题", detail: "选题、文献综述、技术路线与可行性论证", done: false },
+        { id: uid(), term: T(6), phase: "求职", title: "秋招 / 保研复试 / 考研冲刺", detail: "按主路线集中投入，准备面试与机试", done: false },
+        { id: uid(), term: T(6), phase: "科研", title: "前沿论文精读与复现", detail: "固定方向跟踪顶会，尝试复现或改进", done: false },
+        { id: uid(), term: T(7), phase: "实践", title: "毕业设计与答辩", detail: "完成实验、撰写论文并通过答辩", done: false },
+        { id: uid(), term: T(7), phase: "求职", title: "入职衔接与长期体系", detail: "技术博客、开源参与与持续学习计划", done: false }
+      ],
+
+      skills: [
+        { id: uid(), name: "Python 编程", score: 2, target: 4 },
+        { id: uid(), name: "C / C++ 编程", score: 1, target: 4 },
+        { id: uid(), name: "高等数学", score: 2, target: 4 },
+        { id: uid(), name: "线性代数", score: 1, target: 4 },
+        { id: uid(), name: "概率统计", score: 0, target: 4 },
+        { id: uid(), name: "数据结构与算法", score: 1, target: 4 },
+        { id: uid(), name: "计算机系统", score: 0, target: 3 },
+        { id: uid(), name: "数据处理与分析", score: 1, target: 4 },
+        { id: uid(), name: "机器学习", score: 0, target: 4 },
+        { id: uid(), name: "深度学习", score: 0, target: 4 },
+        { id: uid(), name: "工程与工具", score: 1, target: 4 },
+        { id: uid(), name: "英语与论文阅读", score: 2, target: 4 }
+      ],
+
+      projects: [
+        {
+          id: uid(), title: "校园生活数据分析", status: "构思",
+          description: "采集自己记录的作息、消费或课程数据，完成清洗、统计与可视化，写出三条有数据支撑的结论。",
+          skills: "Python, Pandas, Matplotlib", term: T(1), link: "", outcome: "",
+          startDate: "", endDate: ""
+        },
+        {
+          id: uid(), title: "经典机器学习预测", status: "构思",
+          description: "选一个公开数据集（如房价、鸢尾花、泰坦尼克），建立基线模型，比较不同模型并分析错误样本。",
+          skills: "scikit-learn, 评估指标", term: T(3), link: "", outcome: "",
+          startDate: "", endDate: ""
+        },
+        {
+          id: uid(), title: "手写数字识别（MNIST）", status: "构思",
+          description: "从全连接网络到 CNN，观察准确率变化，记录超参数对结果的影响并写出实验报告。",
+          skills: "PyTorch, CNN", term: T(4), link: "", outcome: "",
+          startDate: "", endDate: ""
+        },
+        {
+          id: uid(), title: "课程知识问答助手（RAG 入门）", status: "构思",
+          description: "把课件与笔记做成检索库，用大模型做问答，比较有无检索时的回答质量差异。",
+          skills: "Python, 向量检索, LLM API", term: T(4), link: "", outcome: "",
+          startDate: "", endDate: ""
+        }
+      ],
+
+      tasks: [
+        { id: uid(), title: "创建 GitHub 账号并建立学习仓库", category: "工具", priority: "中", date: "", done: false, est: 1, spent: 0 },
+        { id: uid(), title: "完成 10 道 C 语言基础题（循环与函数）", category: "编程", priority: "高", date: "", done: false, est: 3, spent: 0 },
+        { id: uid(), title: "整理高数极限与导数错题", category: "数学", priority: "高", date: "", done: false, est: 2, spent: 0 },
+        { id: uid(), title: "背诵 100 个 CET-4 核心词", category: "英语", priority: "中", date: "", done: false, est: 2, spent: 0 }
+      ],
+
+      studyLog: [],
+      habits: [
+        { id: uid(), name: "代码 / 算法练习", log: {} },
+        { id: uid(), name: "英语单词与听力", log: {} },
+        { id: uid(), name: "专业书或论文阅读", log: {} },
+        { id: uid(), name: "运动 30 分钟", log: {} }
+      ],
+
+      competitions: [
+        { id: uid(), name: "蓝桥杯全国软件和信息技术专业人才大赛", category: "算法", level: "省级/国家级", deadline: "2027-04-11", status: "待报名", result: "", note: "个人赛，C/C++ 或 Python 组，重点刷真题" },
+        { id: uid(), name: "全国大学生数学建模竞赛", category: "建模", level: "国家级", deadline: "2027-09-10", status: "待报名", result: "", note: "三人一队，暑期集中训练，重视论文写作" },
+        { id: uid(), name: "美国大学生数学建模竞赛 MCM/ICM", category: "建模", level: "国际级", deadline: "2028-02-05", status: "待报名", result: "", note: "四天连续赛，英文论文，需提前组队" },
+        { id: uid(), name: "ACM-ICPC / CCPC 程序设计竞赛", category: "算法", level: "国家级", deadline: "", status: "待报名", result: "", note: "长期刷题，校队选拔，重团队配合" },
+        { id: uid(), name: "中国大学生计算机设计大赛", category: "综合", level: "国家级", deadline: "", status: "待报名", result: "", note: "适合把课程项目打磨成参赛作品" },
+        { id: uid(), name: "大学生创新创业训练计划（大创）", category: "科研", level: "校级/国家级", deadline: "2027-10-15", status: "待报名", result: "", note: "尽早找导师，选题贴合实验室方向" },
+        { id: uid(), name: "“挑战杯” / “互联网+”创新创业大赛", category: "综合", level: "国家级", deadline: "", status: "待报名", result: "", note: "需要完整作品与商业/应用价值说明" },
+        { id: uid(), name: "Kaggle 入门赛", category: "AI", level: "国际级", deadline: "", status: "待报名", result: "", note: "从 Titanic、House Prices 开始，学习特征工程" }
+      ],
+
+      papers: [
+        { id: uid(), title: "Attention Is All You Need", venue: "NeurIPS", year: 2017, status: "待读", rating: 0, link: "https://arxiv.org/abs/1706.03762", note: "Transformer 原论文，理解自注意力与位置编码" },
+        { id: uid(), title: "ImageNet Classification with Deep Convolutional Networks (AlexNet)", venue: "NeurIPS", year: 2012, status: "待读", rating: 0, link: "https://arxiv.org/abs/1207.0580", note: "深度学习复兴的标志性工作" },
+        { id: uid(), title: "Deep Residual Learning for Image Recognition (ResNet)", venue: "CVPR", year: 2016, status: "待读", rating: 0, link: "https://arxiv.org/abs/1512.03385", note: "残差连接，解决深层网络退化" },
+        { id: uid(), title: "Adam: A Method for Stochastic Optimization", venue: "ICLR", year: 2015, status: "待读", rating: 0, link: "https://arxiv.org/abs/1412.6980", note: "最常用优化器之一" },
+        { id: uid(), title: "BERT: Pre-training of Deep Bidirectional Transformers", venue: "NAACL", year: 2019, status: "待读", rating: 0, link: "https://arxiv.org/abs/1810.04805", note: "预训练 + 微调范式" },
+        { id: uid(), title: "Generative Adversarial Networks", venue: "NeurIPS", year: 2014, status: "待读", rating: 0, link: "https://arxiv.org/abs/1406.2661", note: "生成模型经典框架" },
+        { id: uid(), title: "Efficient Estimation of Word Representations (Word2Vec)", venue: "ICLR", year: 2013, status: "待读", rating: 0, link: "https://arxiv.org/abs/1301.3781", note: "词向量入门必读" },
+        { id: uid(), title: "Batch Normalization", venue: "ICML", year: 2015, status: "待读", rating: 0, link: "https://arxiv.org/abs/1502.03167", note: "训练稳定性的关键技巧" }
+      ],
+
+      milestones: [
+        { id: uid(), title: "大一上开学", date: "2026-09-01", category: "学期", done: true, note: "适应大学节奏，建立作息" },
+        { id: uid(), title: "大一上期末考试", date: "2027-01-04", category: "考试", done: false, note: "高数、线代、C 语言是重点" },
+        { id: uid(), title: "大一下开学", date: "2027-02-22", category: "学期", done: false, note: "" },
+        { id: uid(), title: "蓝桥杯省赛", date: "2027-04-11", category: "竞赛", done: false, note: "提前 3 个月刷题" },
+        { id: uid(), title: "CET-4 考试", date: "2027-06-12", category: "英语", done: false, note: "目标 550+" },
+        { id: uid(), title: "大一暑期：项目 / 集训", date: "2027-07-15", category: "实践", done: false, note: "完成第一个像样的作品" },
+        { id: uid(), title: "大二上开学", date: "2027-09-06", category: "学期", done: false, note: "" },
+        { id: uid(), title: "全国大学生数学建模竞赛", date: "2027-09-10", category: "竞赛", done: false, note: "暑期组队训练" },
+        { id: uid(), title: "大创申报", date: "2027-10-15", category: "科研", done: false, note: "提前联系导师" },
+        { id: uid(), title: "美赛 MCM/ICM", date: "2028-02-05", category: "竞赛", done: false, note: "英文论文，四天连续赛" },
+        { id: uid(), title: "CET-6 考试", date: "2028-06-10", category: "英语", done: false, note: "" },
+        { id: uid(), title: "大三暑期实习 / 科研", date: "2028-07-01", category: "实践", done: false, note: "决定升学或就业的关键一步" },
+        { id: uid(), title: "保研 / 考研准备启动", date: "2029-03-01", category: "升学", done: false, note: "关注绩点排名与夏令营信息" },
+        { id: uid(), title: "秋招 / 夏令营与复试", date: "2029-09-01", category: "升学", done: false, note: "" },
+        { id: uid(), title: "毕业设计开题", date: "2029-10-01", category: "学业", done: false, note: "" },
+        { id: uid(), title: "毕业答辩", date: "2030-06-01", category: "学业", done: false, note: "" }
+      ],
+
+      directions: [
+        { id: uid(), title: "大模型与生成式 AI", description: "围绕预训练、微调、检索增强、智能体与评测，把大模型能力落到具体场景。", skills: ["Python", "Transformer", "RAG", "工程化", "评测"], jobs: "算法工程师 / LLM 应用开发 / AI 产品", prep: "先打牢深度学习与 NLP 基础，再动手做一个 RAG 或 Agent 项目。" },
+        { id: uid(), title: "机器学习与算法", description: "研究数据建模、特征工程、训练评估与模型优化，偏研究与方法创新。", skills: ["数学统计", "机器学习", "PyTorch", "实验设计"], jobs: "算法研究员 / 机器学习工程师", prep: "数学与实验能力是核心，尽早进入实验室读论文。" },
+        { id: uid(), title: "计算机视觉", description: "图像分类、检测、分割、生成与多模态视觉理解。", skills: ["CNN", "PyTorch", "OpenCV", "多模态"], jobs: "CV 算法工程师 / 感知算法", prep: "从 MNIST、CIFAR 复现开始，熟悉数据增强与骨干网络。" },
+        { id: uid(), title: "自然语言处理", description: "文本表示、序列建模、预训练语言模型与信息抽取。", skills: ["Transformer", "文本处理", "预训练", "评测"], jobs: "NLP 算法工程师", prep: "读 BERT/GPT 系列论文，动手做文本分类与问答。" },
+        { id: uid(), title: "数据分析与数据科学", description: "从数据中提炼规律，为科研、产品或业务提供分析与预测支持。", skills: ["SQL", "统计学", "Pandas", "可视化", "表达"], jobs: "数据分析师 / 数据科学家", prep: "SQL + 统计 + 业务理解，做一个完整的数据分析报告。" },
+        { id: uid(), title: "AI 工程与平台", description: "建设训练、推理、部署与监控系统，关注性能、稳定性与工程规范。", skills: ["Linux", "Docker", "后端", "分布式", "MLOps"], jobs: "AI 平台工程师 / MLOps / 后端", prep: "把项目真正部署上线，理解工程链路。" },
+        { id: uid(), title: "科研与读研", description: "通过读论文、提问题、做实验、写论文逐步建立研究能力。", skills: ["数学", "英语阅读", "实验设计", "学术写作"], jobs: "高校 / 研究院 / 企业研究岗", prep: "保持高绩点，大二进实验室，争取一篇可展示的成果。" },
+        { id: uid(), title: "交叉与行业应用", description: "把 AI 用于医疗、金融、制造、教育等行业，兼懂领域知识与技术。", skills: ["领域知识", "建模", "沟通", "落地能力"], jobs: "行业算法工程师 / 解决方案", prep: "选择一个感兴趣的行业，深入理解它的真实问题。" }
+      ],
+      selectedDirection: "",
+
+      english: {
+        cet4: { target: "550", score: "", date: "", done: false },
+        cet6: { target: "500", score: "", date: "", done: false },
+        ielts: { target: "6.5", score: "", date: "", done: false },
+        toefl: { target: "90", score: "", date: "", done: false },
+        plan: [
+          { id: uid(), text: "每天 30 个单词（四级核心词）", done: false },
+          { id: uid(), text: "每周精听 2 篇听力材料", done: false },
+          { id: uid(), text: "每周精读 1 篇英文技术文章", done: false },
+          { id: uid(), text: "每两周完成一套四级真题", done: false },
+          { id: uid(), text: "背诵 10 个写作模板句型", done: false }
+        ]
+      },
+
+      notes: [
+        {
+          id: uid(), title: "工作台使用说明",
+          tags: "说明",
+          content: "1) 所有数据保存在本机浏览器（localStorage），换电脑请先在「数据与设置」导出 JSON。\n2) 课程录入分数后会自动计算加权平均分与绩点。\n3) 能力雷达用滑块自评，评分标准见页面提示。\n4) 番茄钟在右下角，完成后可一键记入时间账本。\n5) 每周日做一次复盘，写进「每周计划」的复盘区。",
+          updatedAt: todayISO()
+        }
+      ],
+
+      weeks: [],
+      meta: { createdAt: todayISO(), lastSaved: todayISO() }
+    };
+  }
+
+  /* ============================================================
+     3. 迁移与持久化
+     ============================================================ */
+  function migrate(raw) {
+    const base = defaultData();
+    if (!raw || typeof raw !== "object") return base;
+
+    /* v1 -> v2 */
+    const next = base;
+    if (raw.profile && typeof raw.profile === "object") {
+      const p = raw.profile;
+      if (p.school) next.profile.school = String(p.school);
+      if (p.major) next.profile.major = String(p.major);
+      if (p.year) next.profile.grade = String(p.year);
+      if (p.weeklyHours) next.profile.weeklyHours = clamp(p.weeklyHours, 1, 80);
+      if (p.target) next.profile.target = String(p.target);
+      if (p.college) next.profile.college = String(p.college);
+      if (p.campus) next.profile.campus = String(p.campus);
+      if (p.enrollYear) next.profile.enrollYear = num(p.enrollYear, 2026);
+    }
+    const terms = termList(next.profile.enrollYear);
+    if (Array.isArray(raw.skills) && raw.skills.length) {
+      next.skills = raw.skills.map(s => ({
+        id: uid(), name: String(s.name || "未命名能力"),
+        score: clamp(s.score, 0, 5),
+        target: clamp(s.target != null ? s.target : num(s.score) + 1, 0, 5)
+      }));
+    }
+    if (Array.isArray(raw.roadmap) && raw.roadmap.length) {
+      next.roadmap = raw.roadmap.map((r, i) => ({
+        id: uid(),
+        term: r.term || (terms[Math.min(i, terms.length - 1)] || terms[0]).id,
+        phase: PHASES.includes(r.phase) ? r.phase : "基础",
+        title: String(r.title || "未命名阶段"),
+        detail: String(r.detail || ""),
+        done: !!r.done
+      }));
+    }
+    if (Array.isArray(raw.tasks) && raw.tasks.length) {
+      next.tasks = raw.tasks.map(t => ({
+        id: uid(), title: String(t.title || "未命名任务"),
+        category: String(t.category || "学习"),
+        priority: PRIORITIES.includes(t.priority) ? t.priority : "中",
+        date: t.date || "", done: !!t.done, est: num(t.est, 0), spent: num(t.spent, 0)
+      }));
+    }
+    if (Array.isArray(raw.projects) && raw.projects.length) {
+      next.projects = raw.projects.map(p => ({
+        id: uid(), title: String(p.title || "未命名项目"),
+        status: PROJECT_STATUS.includes(p.status) ? p.status : "构思",
+        description: String(p.description || ""),
+        skills: String(p.skills || ""), term: p.term || terms[0].id,
+        link: "", outcome: "", startDate: "", endDate: ""
+      }));
+    }
+    if (Array.isArray(raw.directions) && raw.directions.length) {
+      next.directions = raw.directions.map(d => ({
+        id: uid(), title: String(d.title || "方向"),
+        description: String(d.description || ""),
+        skills: Array.isArray(d.skills) ? d.skills.map(String) : [],
+        jobs: "", prep: ""
+      }));
+    }
+    if (raw.selectedDirection) next.selectedDirection = String(raw.selectedDirection);
+    if (raw.notes && typeof raw.notes === "string" && raw.notes.trim()) {
+      next.notes.unshift({
+        id: uid(), title: "周复盘（自旧版迁移）", tags: "迁移",
+        content: raw.notes.trim(), updatedAt: raw.weekStart || todayISO()
+      });
+    }
+    if (Array.isArray(raw.weeks)) next.weeks = raw.weeks;
+    if (raw.weekStart) next.weekStart = raw.weekStart;
+    next.meta.migratedFrom = "v1";
+    return next;
+  }
+
+  function normalize(raw) {
+    if (!raw || typeof raw !== "object") return defaultData();
+    if (num(raw.version, 1) >= 2) {
+      const base = defaultData();
+      const merged = { ...base, ...raw };
+      merged.profile = { ...base.profile, ...(raw.profile || {}) };
+      merged.settings = { ...base.settings, ...(raw.settings || {}) };
+      merged.english = { ...base.english, ...(raw.english || {}) };
+      merged.meta = { ...base.meta, ...(raw.meta || {}) };
+      for (const key of ["courses", "roadmap", "skills", "projects", "tasks", "studyLog", "habits", "competitions", "papers", "milestones", "directions", "notes", "weeks"]) {
+        if (!Array.isArray(merged[key])) merged[key] = base[key];
+      }
+      if (!Array.isArray(merged.english.plan)) merged.english.plan = base.english.plan;
+      merged.courses = merged.courses.map(c => ({ id: c.id || uid(), teacher: "", ...c }));
+      merged.roadmap = merged.roadmap.map(r => ({ id: r.id || uid(), ...r }));
+      merged.skills = merged.skills.map(s => ({ id: s.id || uid(), target: num(s.target, num(s.score) + 1), ...s }));
+      merged.projects = merged.projects.map(p => ({ id: p.id || uid(), ...p }));
+      merged.tasks = merged.tasks.map(t => ({ id: t.id || uid(), ...t }));
+      merged.habits = merged.habits.map(h => ({ id: h.id || uid(), log: h.log || {}, ...h }));
+      merged.milestones = merged.milestones.map(m => ({ id: m.id || uid(), ...m }));
+      merged.papers = merged.papers.map(p => ({ id: p.id || uid(), ...p }));
+      merged.competitions = merged.competitions.map(c => ({ id: c.id || uid(), ...c }));
+      merged.notes = merged.notes.map(n => ({ id: n.id || uid(), ...n }));
+      merged.directions = merged.directions.map(d => ({
+        id: d.id || uid(), jobs: "", prep: "", ...d,
+        skills: Array.isArray(d.skills) ? d.skills : []
+      }));
+      return merged;
+    }
+    return migrate(raw);
+  }
+
+  function loadData() {
+    try {
+      const current = localStorage.getItem(STORAGE_KEY);
+      if (current) return normalize(JSON.parse(current));
+      for (const key of LEGACY_KEYS) {
+        const legacy = localStorage.getItem(key);
+        if (legacy) {
+          const migrated = migrate(JSON.parse(legacy));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+          return migrated;
+        }
+      }
+    } catch (error) {
+      console.warn("读取本地数据失败，使用默认数据。", error);
+    }
+    return defaultData();
+  }
+
+  let data = loadData();
+  let currentPage = "overview";
+  let ui = { termFilter: "all", search: {}, toastTimer: null, courseSearch: "", paperFilter: "all" };
+
+  function persist() {
+    data.meta = data.meta || {};
+    data.meta.lastSaved = todayISO();
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      savedLabel = "已保存 · " + new Date().toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" });
+      const el = document.getElementById("profileSaved");
+      if (el) el.textContent = savedLabel;
+    } catch (error) {
+      toast("保存失败：浏览器存储空间可能已满");
+      console.error(error);
+    }
+  }
+  function save(message, rerender = true) {
+    persist();
+    if (rerender) render();
+    if (message) toast(message);
+  }
+  function toast(message) {
+    const el = document.getElementById("toast");
+    el.textContent = message;
+    el.classList.add("show");
+    clearTimeout(ui.toastTimer);
+    ui.toastTimer = setTimeout(() => el.classList.remove("show"), 2200);
+  }
+
+  /* ============================================================
+     4. 计算
+     ============================================================ */
+  function terms() { return termList(data.profile.enrollYear); }
+  function termById(id) { return terms().find(t => t.id === id) || null; }
+  function termLabel(id) { const t = termById(id); return t ? `${t.label}（${t.sub}）` : String(id || "—"); }
+  function currentTerm() { return currentTermId(data.profile.enrollYear); }
+
+  function courseStats(list) {
+    const graded = list.filter(c => c.score !== null && c.score !== "" && Number.isFinite(Number(c.score)));
+    let creditSum = 0, weighted = 0, gpSum = 0, gpCredit = 0;
+    for (const c of graded) {
+      const cr = num(c.credits, 0);
+      const sc = clamp(c.score, 0, 100);
+      creditSum += cr;
+      weighted += sc * cr;
+      gpSum += scoreToGp(sc) * cr;
+      gpCredit += cr;
+    }
+    return {
+      count: graded.length,
+      credits: round(creditSum, 1),
+      average: creditSum > 0 ? round(weighted / creditSum, 2) : 0,
+      gpa: gpCredit > 0 ? round(gpSum / gpCredit, 3) : 0,
+      totalCredits: round(list.reduce((s, c) => s + num(c.credits, 0), 0), 1)
+    };
+  }
+  function remainingCredits() { return round(courseStats(data.courses).totalCredits, 1); }
+
+  function roadmapByTerm() {
+    const map = new Map();
+    for (const t of terms()) map.set(t.id, []);
+    for (const r of data.roadmap) {
+      if (!map.has(r.term)) map.set(r.term, []);
+      map.get(r.term).push(r);
+    }
+    return map;
+  }
+  function roadmapProgress() {
+    const done = data.roadmap.filter(r => r.done).length;
+    return { done, total: data.roadmap.length, percent: data.roadmap.length ? Math.round(done / data.roadmap.length * 100) : 0 };
+  }
+  function skillAverages() {
+    if (!data.skills.length) return { now: 0, target: 0 };
+    const now = data.skills.reduce((s, k) => s + num(k.score), 0) / data.skills.length;
+    const target = data.skills.reduce((s, k) => s + num(k.target), 0) / data.skills.length;
+    return { now: round(now, 2), target: round(target, 2) };
+  }
+
+  /* 时间账本 */
+  function studyHoursBetween(fromISO, toISOStr) {
+    const a = parseISO(fromISO), b = parseISO(toISOStr);
+    if (!a || !b) return 0;
+    return data.studyLog
+      .filter(e => { const d = parseISO(e.date); return d && d >= a && d <= b; })
+      .reduce((s, e) => s + num(e.hours), 0);
+  }
+  function weekStartISO(offsetWeeks = 0) {
+    const now = new Date();
+    const day = (now.getDay() + 6) % 7; /* 周一为一周开始 */
+    const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - day + offsetWeeks * 7);
+    return toISO(monday);
+  }
+  function weekEndISO(offsetWeeks = 0) {
+    const s = parseISO(weekStartISO(offsetWeeks));
+    return toISO(new Date(s.getFullYear(), s.getMonth(), s.getDate() + 6));
+  }
+  function last7Days() {
+    const out = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const iso = toISO(d);
+      const hours = data.studyLog.filter(e => e.date === iso).reduce((s, e) => s + num(e.hours), 0);
+      out.push({ iso, label: ["日", "一", "二", "三", "四", "五", "六"][d.getDay()], hours: round(hours, 1) });
+    }
+    return out;
+  }
+  function last8Weeks() {
+    const out = [];
+    for (let i = 7; i >= 0; i--) {
+      const s = weekStartISO(-i), e = weekEndISO(-i);
+      out.push({ start: s, end: e, hours: round(studyHoursBetween(s, e), 1) });
+    }
+    return out;
+  }
+  function taskLoad() {
+    const open = data.tasks.filter(t => !t.done);
+    const est = open.reduce((s, t) => s + num(t.est, 0), 0);
+    const high = open.filter(t => t.priority === "高").length;
+    return { open: open.length, est: round(est, 1), high };
+  }
+  function nextMilestone() {
+    const pending = data.milestones
+      .filter(m => !m.done)
+      .map(m => ({ ...m, days: daysFromToday(m.date) }))
+      .filter(m => m.days !== null)
+      .sort((a, b) => a.days - b.days);
+    return pending[0] || null;
+  }
+  function upcomingMilestones(n = 4) {
+    return data.milestones
+      .filter(m => !m.done)
+      .map(m => ({ ...m, days: daysFromToday(m.date) }))
+      .filter(m => m.days !== null && m.days >= 0)
+      .sort((a, b) => a.days - b.days)
+      .slice(0, n);
+  }
+  function habitStreak(habit) {
+    let streak = 0;
+    const d = new Date();
+    for (;;) {
+      const iso = toISO(d);
+      if (habit.log && habit.log[iso]) { streak++; d.setDate(d.getDate() - 1); }
+      else if (iso === todayISO()) { d.setDate(d.getDate() - 1); } /* 今天未打不算断 */
+      else break;
+      if (streak > 3650) break;
+    }
+    return streak;
+  }
+  function todayMinutes() {
+    return round(data.studyLog.filter(e => e.date === todayISO()).reduce((s, e) => s + num(e.hours), 0) * 60, 0);
+  }
+  /* ============================================================
+     5. 通用组件（纯 SVG / CSS，无外部依赖）
+     ============================================================ */
+  function progressBar(percent, color = "") {
+    const p = clamp(percent, 0, 100);
+    return `<div class="progress-track" role="progressbar" aria-valuenow="${Math.round(p)}" aria-valuemin="0" aria-valuemax="100">
+      <div class="progress-fill ${color}" style="width:${p}%"></div></div>`;
+  }
+
+  function ring(percent, opts = {}) {
+    const size = opts.size || 78, stroke = opts.stroke || 8;
+    const color = opts.color || "var(--green)";
+    const p = clamp(percent, 0, 100);
+    const r = (size - stroke) / 2;
+    const c = 2 * Math.PI * r;
+    const off = c * (1 - p / 100);
+    return `<svg class="ring" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="img" aria-label="${Math.round(p)}%">
+      <circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="var(--surface-soft)" stroke-width="${stroke}"></circle>
+      <circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}"
+        stroke-linecap="round" stroke-dasharray="${round(c, 2)}" stroke-dashoffset="${round(off, 2)}"
+        transform="rotate(-90 ${size / 2} ${size / 2})" style="transition:stroke-dashoffset .3s ease"></circle>
+      <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central"
+        font-size="${size / 4.4}" font-weight="700" fill="var(--text)">${Math.round(p)}%</text>
+    </svg>`;
+  }
+
+  function radarChart(list, size = 430) {
+    const items = (list || []).filter(s => s && s.name);
+    const n = items.length;
+    if (n < 3) return `<div class="empty">至少需要 3 项能力才能绘制雷达图。请先添加能力项。</div>`;
+    const cx = size / 2, cy = size / 2;
+    const R = size / 2 - 72;
+    const MAX = 5;
+    const ang = i => -Math.PI / 2 + i * 2 * Math.PI / n;
+    const pt = (i, v) => {
+      const a = ang(i), rr = R * clamp(v, 0, MAX) / MAX;
+      return [cx + rr * Math.cos(a), cy + rr * Math.sin(a)];
+    };
+    const poly = get => items.map((s, i) => pt(i, get(s)).map(v => round(v, 1)).join(",")).join(" ");
+    let svg = `<svg viewBox="0 0 ${size} ${size}" width="100%" style="max-width:${size}px;display:block" role="img" aria-label="能力雷达图">`;
+    for (let lvl = 1; lvl <= MAX; lvl++) {
+      const rr = R * lvl / MAX;
+      const pts = items.map((_, i) => {
+        const a = ang(i);
+        return [cx + rr * Math.cos(a), cy + rr * Math.sin(a)].map(v => round(v, 1)).join(",");
+      }).join(" ");
+      svg += `<polygon points="${pts}" fill="none" stroke="var(--line)" stroke-width="1" ${lvl === MAX ? 'stroke-opacity="1"' : 'stroke-opacity=".7"'}></polygon>`;
+    }
+    items.forEach((_, i) => {
+      const [x, y] = pt(i, MAX);
+      svg += `<line x1="${cx}" y1="${cy}" x2="${round(x, 1)}" y2="${round(y, 1)}" stroke="var(--line)" stroke-width="1" stroke-opacity=".7"></line>`;
+    });
+    svg += `<polygon points="${poly(s => s.target)}" fill="none" stroke="var(--amber)" stroke-width="1.6" stroke-dasharray="5 4"></polygon>`;
+    svg += `<polygon points="${poly(s => s.score)}" fill="var(--green)" fill-opacity=".18" stroke="var(--green)" stroke-width="2"></polygon>`;
+    items.forEach((s, i) => {
+      const [x, y] = pt(i, s.score);
+      svg += `<circle cx="${round(x, 1)}" cy="${round(y, 1)}" r="3" fill="var(--green)"></circle>`;
+    });
+    items.forEach((s, i) => {
+      const a = ang(i);
+      const lx = cx + (R + 16) * Math.cos(a);
+      const ly = cy + (R + 16) * Math.sin(a);
+      const cosv = Math.cos(a), sinv = Math.sin(a);
+      const anchor = Math.abs(cosv) < 0.3 ? "middle" : (cosv > 0 ? "start" : "end");
+      const dy = sinv > 0.6 ? 10 : (sinv < -0.6 ? -1 : 4);
+      svg += `<text x="${round(lx, 1)}" y="${round(ly + dy, 1)}" font-size="10.5" fill="var(--muted)" text-anchor="${anchor}">${escapeHtml(s.name)}</text>`;
+    });
+    svg += `</svg>`;
+    return svg;
+  }
+
+  function barChart(items, opts = {}) {
+    const valueKey = opts.valueKey || "hours";
+    const labelKey = opts.labelKey || "label";
+    const unit = opts.unit || "h";
+    const max = opts.max || Math.max(1, ...items.map(i => num(i[valueKey])));
+    return `<div class="bars">${items.map((item, i) => {
+      const v = num(item[valueKey]);
+      const h = max > 0 ? Math.max(v > 0 ? 4 : 0, Math.round(v / max * 100)) : 0;
+      const soft = opts.highlightIndex != null && i !== opts.highlightIndex;
+      return `<div class="bar-col" title="${escapeHtml(String(item[labelKey]))}：${v}${unit}">
+        <span class="bar-value">${v > 0 ? v : ""}</span>
+        <div class="bar-track"><div class="bar-fill ${soft ? "soft" : ""}" style="height:${h}%"></div></div>
+        <span class="bar-label">${escapeHtml(String(item[labelKey]))}</span>
+      </div>`;
+    }).join("")}</div>`;
+  }
+
+  function tag(text, tone = "") {
+    return `<span class="tag ${tone}">${escapeHtml(text)}</span>`;
+  }
+  const PHASE_TONE = { "数学": "blue", "编程": "green", "基础": "", "数据": "teal", "AI": "violet", "实践": "amber", "英语": "blue", "科研": "violet", "求职": "amber" };
+  function phaseTag(phase) { return tag(phase, PHASE_TONE[phase] || ""); }
+  function priorityTag(p) { return tag(p + "优先", p === "高" ? "red" : p === "中" ? "amber" : ""); }
+  function statusTone(s) {
+    return ({ "已完成": "green", "进行中": "blue", "已结束": "green", "构思": "", "已暂停": "amber", "待报名": "amber", "备赛中": "blue", "已参赛": "violet", "待读": "", "在读": "blue", "已读": "green", "精读": "violet" })[s] || "";
+  }
+  function levelLabel(v) { return LEVELS[clamp(Math.round(v), 0, 5)] || LEVELS[0]; }
+  function countdownTag(days) {
+    if (days === null || days === undefined) return "";
+    if (days < 0) return tag(`已过 ${-days} 天`, "red");
+    if (days === 0) return tag("就在今天", "amber");
+    if (days <= 14) return tag(`还有 ${days} 天`, "amber");
+    return tag(`还有 ${days} 天`, "");
+  }
+  function daysLabel(n) { return n >= 0 ? `还有 ${n} 天` : `已过 ${-n} 天`; }
+
+  function emptyRow(text) { return `<div class="empty">${escapeHtml(text)}</div>`; }
+  function sectionHeader(title, subtitle, actionsHtml = "") {
+    return `<div class="panel-head"><div><h2>${escapeHtml(title)}</h2>${subtitle ? `<div class="panel-subtitle">${escapeHtml(subtitle)}</div>` : ""}</div><div class="panel-actions">${actionsHtml}</div></div>`;
+  }
+
+  /* ============================================================
+     6. 模态框
+     ============================================================ */
+  let modalState = null;
+
+  function fieldHtml(f) {
+    const span = f.span === 2 ? "span-2" : "";
+    const id = "mf_" + f.name;
+    const val = f.value == null ? "" : f.value;
+    let control = "";
+    if (f.type === "select") {
+      control = `<select id="${id}" name="${f.name}">${(f.options || []).map(o => {
+        const v = typeof o === "object" ? o.value : o;
+        const l = typeof o === "object" ? o.label : o;
+        return `<option value="${escapeHtml(v)}" ${String(v) === String(val) ? "selected" : ""}>${escapeHtml(l)}</option>`;
+      }).join("")}</select>`;
+    } else if (f.type === "textarea") {
+      control = `<textarea id="${id}" name="${f.name}" placeholder="${escapeHtml(f.placeholder || "")}">${escapeHtml(val)}</textarea>`;
+    } else {
+      control = `<input id="${id}" name="${f.name}" type="${f.type || "text"}" value="${escapeHtml(val)}"
+        placeholder="${escapeHtml(f.placeholder || "")}"
+        ${f.min != null ? `min="${f.min}"` : ""} ${f.max != null ? `max="${f.max}"` : ""}
+        ${f.step != null ? `step="${f.step}"` : ""} ${f.required ? "required" : ""}>`;
+    }
+    return `<div class="field ${span}"><label for="${id}">${escapeHtml(f.label || f.name)}${f.required ? " *" : ""}</label>
+      ${control}${f.hint ? `<span class="hint">${escapeHtml(f.hint)}</span>` : ""}</div>`;
+  }
+
+  function openModal(config) {
+    modalState = config;
+    const backdrop = document.getElementById("modalBackdrop");
+    const modal = document.getElementById("modal");
+    const fields = config.fields || [];
+    const head = `<div class="modal-head">
+      <div><h2>${escapeHtml(config.title || "")}</h2>${config.subtitle ? `<div class="panel-subtitle">${escapeHtml(config.subtitle)}</div>` : ""}</div>
+      <button type="button" class="button icon ghost" data-modal-close aria-label="关闭">✕</button>
+    </div>`;
+    const body = config.html
+      ? config.html
+      : `<form id="modalForm" novalidate>
+          <div class="form-grid ${config.cols === 3 ? "cols-3" : ""}">${fields.map(fieldHtml).join("")}</div>
+          <div class="form-actions">
+            <button type="button" class="button" data-modal-close>取消</button>
+            <button type="submit" class="button primary">${escapeHtml(config.submitLabel || "保存")}</button>
+          </div>
+        </form>`;
+    modal.innerHTML = head + body;
+    backdrop.classList.add("show");
+
+    modal.querySelectorAll("[data-modal-close]").forEach(b => b.addEventListener("click", closeModal));
+    const form = modal.querySelector("#modalForm");
+    if (form) {
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+        const fd = new FormData(form);
+        const values = {};
+        for (const f of fields) {
+          let v = fd.get(f.name);
+          if (f.type === "number") v = (v === "" || v === null) ? null : Number(v);
+          else v = typeof v === "string" ? v.trim() : v;
+          values[f.name] = v;
+        }
+        const ok = config.onSubmit ? config.onSubmit(values) : true;
+        if (ok !== false) closeModal();
+      });
+    }
+    if (typeof config.onRender === "function") config.onRender(modal);
+    const first = modal.querySelector("input,textarea,select");
+    if (first && !config.noFocus) setTimeout(() => first.focus(), 40);
+  }
+
+  function closeModal() {
+    document.getElementById("modalBackdrop").classList.remove("show");
+    document.getElementById("modal").innerHTML = "";
+    modalState = null;
+  }
+
+  const termOptions = () => terms().map(t => ({ value: t.id, label: `${t.label} · ${t.sub}` }));
+
+  /* 各模块的"新增"表单 */
+  function addCourseDialog(item) {
+    const editing = !!item;
+    openModal({
+      title: editing ? "编辑课程" : "添加课程",
+      subtitle: "录入成绩后会自动计入加权平均分与绩点",
+      cols: 3,
+      fields: [
+        { name: "name", label: "课程名称", value: item ? item.name : "", required: true, span: 2, placeholder: "如：数据结构与算法" },
+        { name: "term", label: "学期", type: "select", options: termOptions(), value: item ? item.term : currentTerm() },
+        { name: "credits", label: "学分", type: "number", min: 0, max: 20, step: 0.5, value: item ? item.credits : 3 },
+        { name: "type", label: "类别", type: "select", options: COURSE_TYPES, value: item ? item.type : "必修" },
+        { name: "status", label: "状态", type: "select", options: COURSE_STATUS, value: item ? item.status : "进行中" },
+        { name: "score", label: "成绩（百分制，可留空）", type: "number", min: 0, max: 100, step: 0.5, value: item && item.score != null ? item.score : "", placeholder: "留空表示未出分" },
+        { name: "teacher", label: "任课教师", value: item ? item.teacher : "", placeholder: "选填" }
+      ],
+      onSubmit(v) {
+        if (!v.name) { toast("请填写课程名称"); return false; }
+        const payload = {
+          name: v.name, term: v.term, credits: clamp(num(v.credits, 3), 0, 20),
+          type: v.type, status: v.status,
+          score: v.score === null || v.score === "" ? null : clamp(v.score, 0, 100),
+          teacher: v.teacher || ""
+        };
+        if (editing) Object.assign(item, payload);
+        else data.courses.push({ id: uid(), ...payload });
+        if (payload.score !== null && payload.status !== "已完成") {
+          const target = editing ? item : data.courses[data.courses.length - 1];
+          target.status = "已完成";
+        }
+        save(editing ? "课程已更新" : "课程已添加");
+      }
+    });
+  }
+
+  function addRoadmapDialog(item, presetTerm) {
+    const editing = !!item;
+    openModal({
+      title: editing ? "编辑学习任务" : "添加学习任务",
+      cols: 3,
+      fields: [
+        { name: "title", label: "任务名称", value: item ? item.title : "", required: true, span: 2, placeholder: "如：理解梯度下降的推导" },
+        { name: "phase", label: "类别", type: "select", options: PHASES, value: item ? item.phase : "基础" },
+        { name: "term", label: "所属学期", type: "select", options: termOptions(), value: item ? item.term : (presetTerm || currentTerm()) },
+        { name: "detail", label: "完成标准 / 说明", type: "textarea", value: item ? item.detail : "", span: 2, placeholder: "写清楚做到什么程度算完成" }
+      ],
+      onSubmit(v) {
+        if (!v.title) { toast("请填写任务名称"); return false; }
+        const payload = { title: v.title, phase: v.phase, term: v.term, detail: v.detail };
+        if (editing) Object.assign(item, payload);
+        else data.roadmap.push({ id: uid(), done: false, ...payload });
+        save(editing ? "学习任务已更新" : "学习任务已添加");
+      }
+    });
+  }
+
+  function addSkillDialog(item) {
+    const editing = !!item;
+    openModal({
+      title: editing ? "编辑能力项" : "添加能力项",
+      subtitle: "评分 0–5：" + LEVELS.map((l, i) => `${i} ${l}`).join(" · "),
+      fields: [
+        { name: "name", label: "能力名称", value: item ? item.name : "", required: true, placeholder: "如：强化学习" },
+        { name: "score", label: "当前水平 (0-5)", type: "number", min: 0, max: 5, step: 1, value: item ? item.score : 0 },
+        { name: "target", label: "目标水平 (0-5)", type: "number", min: 0, max: 5, step: 1, value: item ? item.target : 3 }
+      ],
+      onSubmit(v) {
+        if (!v.name) { toast("请填写能力名称"); return false; }
+        const payload = { name: v.name, score: clamp(num(v.score), 0, 5), target: clamp(num(v.target), 0, 5) };
+        if (editing) Object.assign(item, payload);
+        else data.skills.push({ id: uid(), ...payload });
+        save(editing ? "能力项已更新" : "能力项已添加");
+      }
+    });
+  }
+
+  function addProjectDialog(item) {
+    const editing = !!item;
+    openModal({
+      title: editing ? "编辑项目" : "新建项目",
+      subtitle: "写清楚要解决的问题、方法与可验证的结果",
+      fields: [
+        { name: "title", label: "项目名称", value: item ? item.title : "", required: true },
+        { name: "term", label: "计划学期", type: "select", options: termOptions(), value: item ? item.term : currentTerm() },
+        { name: "description", label: "项目说明", type: "textarea", span: 2, value: item ? item.description : "", placeholder: "问题是什么？用什么数据和方法？预期产出？" },
+        { name: "skills", label: "技术栈 / 技能", value: item ? item.skills : "", span: 2, placeholder: "如：Python, PyTorch, Pandas" },
+        { name: "status", label: "状态", type: "select", options: PROJECT_STATUS, value: item ? item.status : "构思" },
+        { name: "link", label: "仓库 / 链接", value: item ? item.link : "", placeholder: "https://github.com/..." },
+        { name: "outcome", label: "产出与结果", value: item ? item.outcome : "", span: 2, placeholder: "如：准确率 0.94，完成了实验报告与 README" }
+      ],
+      onSubmit(v) {
+        if (!v.title) { toast("请填写项目名称"); return false; }
+        const payload = { title: v.title, term: v.term, description: v.description, skills: v.skills, status: v.status, link: v.link, outcome: v.outcome };
+        if (editing) Object.assign(item, payload);
+        else data.projects.push({ id: uid(), startDate: "", endDate: "", ...payload });
+        save(editing ? "项目已更新" : "项目已创建");
+      }
+    });
+  }
+
+  function addTaskDialog(item) {
+    const editing = !!item;
+    openModal({
+      title: editing ? "编辑任务" : "添加任务",
+      subtitle: "任务要写成可检查的行动，例如“完成 10 道数组题”",
+      cols: 3,
+      fields: [
+        { name: "title", label: "任务", value: item ? item.title : "", required: true, span: 2, placeholder: "具体、可完成、可验证" },
+        { name: "priority", label: "优先级", type: "select", options: PRIORITIES, value: item ? item.priority : "中" },
+        { name: "category", label: "分类", value: item ? item.category : "", placeholder: "如：数学、编程、英语" },
+        { name: "date", label: "截止日期", type: "date", value: item ? item.date : "" },
+        { name: "est", label: "预计工时 (小时)", type: "number", min: 0, max: 60, step: 0.5, value: item ? item.est : 1 }
+      ],
+      onSubmit(v) {
+        if (!v.title) { toast("请填写任务"); return false; }
+        const payload = { title: v.title, priority: v.priority, category: v.category || "学习", date: v.date || "", est: clamp(num(v.est, 0), 0, 60) };
+        if (editing) Object.assign(item, payload);
+        else data.tasks.push({ id: uid(), done: false, spent: 0, ...payload });
+        save(editing ? "任务已更新" : "任务已添加");
+      }
+    });
+  }
+
+  function addStudyLogDialog() {
+    openModal({
+      title: "记录学习时间",
+      subtitle: "用于统计每周投入，判断计划是否现实",
+      cols: 3,
+      fields: [
+        { name: "date", label: "日期", type: "date", value: todayISO(), required: true },
+        { name: "hours", label: "时长 (小时)", type: "number", min: 0.25, max: 16, step: 0.25, value: 1, required: true },
+        { name: "subject", label: "科目 / 内容", value: "", placeholder: "如：高数、算法、英语", span: 2 },
+        { name: "note", label: "备注", value: "", span: 2, placeholder: "选填" }
+      ],
+      onSubmit(v) {
+        if (!v.date || !v.hours) { toast("请填写日期与时长"); return false; }
+        data.studyLog.push({ id: uid(), date: v.date, hours: clamp(num(v.hours), 0.25, 16), subject: v.subject || "综合", note: v.note || "" });
+        save("已记录学习时间");
+      }
+    });
+  }
+
+  function addHabitDialog() {
+    openModal({
+      title: "添加习惯",
+      fields: [{ name: "name", label: "习惯名称", required: true, placeholder: "如：每天刷 2 道算法题" }],
+      onSubmit(v) {
+        if (!v.name) { toast("请填写习惯名称"); return false; }
+        data.habits.push({ id: uid(), name: v.name, log: {} });
+        save("习惯已添加");
+      }
+    });
+  }
+
+  function addCompetitionDialog(item) {
+    const editing = !!item;
+    openModal({
+      title: editing ? "编辑竞赛 / 科研" : "添加竞赛 / 科研",
+      cols: 3,
+      fields: [
+        { name: "name", label: "名称", value: item ? item.name : "", required: true, span: 2 },
+        { name: "category", label: "类别", value: item ? item.category : "", placeholder: "算法 / 建模 / AI / 科研" },
+        { name: "level", label: "级别", value: item ? item.level : "", placeholder: "校级 / 省级 / 国家级 / 国际级" },
+        { name: "deadline", label: "截止 / 比赛日期", type: "date", value: item ? item.deadline : "" },
+        { name: "status", label: "状态", type: "select", options: COMP_STATUS, value: item ? item.status : "待报名" },
+        { name: "result", label: "结果 / 奖项", value: item ? item.result : "", placeholder: "如：省一等奖" },
+        { name: "note", label: "备注与准备计划", type: "textarea", span: 2, value: item ? item.note : "" }
+      ],
+      onSubmit(v) {
+        if (!v.name) { toast("请填写名称"); return false; }
+        const payload = { name: v.name, category: v.category || "综合", level: v.level || "", deadline: v.deadline || "", status: v.status, result: v.result || "", note: v.note || "" };
+        if (editing) Object.assign(item, payload);
+        else data.competitions.push({ id: uid(), ...payload });
+        save(editing ? "已更新" : "已添加");
+      }
+    });
+  }
+
+  function addPaperDialog(item) {
+    const editing = !!item;
+    openModal({
+      title: editing ? "编辑论文" : "添加论文",
+      cols: 3,
+      fields: [
+        { name: "title", label: "论文标题", value: item ? item.title : "", required: true, span: 2 },
+        { name: "year", label: "年份", type: "number", min: 1950, max: 2100, value: item ? item.year : new Date().getFullYear() },
+        { name: "venue", label: "会议 / 期刊", value: item ? item.venue : "", placeholder: "如：NeurIPS、CVPR、arXiv" },
+        { name: "status", label: "状态", type: "select", options: PAPER_STATUS, value: item ? item.status : "待读" },
+        { name: "rating", label: "重要度 (0-5)", type: "number", min: 0, max: 5, step: 1, value: item ? item.rating : 3 },
+        { name: "link", label: "链接", value: item ? item.link : "", placeholder: "arXiv 或 DOI 链接" },
+        { name: "note", label: "笔记 / 核心贡献", type: "textarea", span: 2, value: item ? item.note : "", placeholder: "用一句话说清它解决了什么问题" }
+      ],
+      onSubmit(v) {
+        if (!v.title) { toast("请填写论文标题"); return false; }
+        const payload = { title: v.title, year: num(v.year, new Date().getFullYear()), venue: v.venue || "", status: v.status, rating: clamp(num(v.rating), 0, 5), link: v.link || "", note: v.note || "" };
+        if (editing) Object.assign(item, payload);
+        else data.papers.push({ id: uid(), ...payload });
+        save(editing ? "已更新" : "已添加");
+      }
+    });
+  }
+
+  function addMilestoneDialog(item) {
+    const editing = !!item;
+    openModal({
+      title: editing ? "编辑里程碑" : "添加里程碑",
+      cols: 3,
+      fields: [
+        { name: "title", label: "目标", value: item ? item.title : "", required: true, span: 2, placeholder: "如：通过 CET-6" },
+        { name: "date", label: "日期", type: "date", value: item ? item.date : "", required: true },
+        { name: "category", label: "类别", value: item ? item.category : "", placeholder: "学期 / 考试 / 竞赛 / 科研" },
+        { name: "note", label: "备注", value: item ? item.note : "", span: 2 }
+      ],
+      onSubmit(v) {
+        if (!v.title || !v.date) { toast("请填写目标与日期"); return false; }
+        const payload = { title: v.title, date: v.date, category: v.category || "其他", note: v.note || "" };
+        if (editing) Object.assign(item, payload);
+        else data.milestones.push({ id: uid(), done: false, ...payload });
+        save(editing ? "已更新" : "已添加");
+      }
+    });
+  }
+
+  function noteDialog(item) {
+    const editing = !!item;
+    openModal({
+      title: editing ? "编辑笔记" : "新建笔记",
+      subtitle: "语法备忘、论文要点、报错解决记录都可以放这里",
+      fields: [
+        { name: "title", label: "标题", value: item ? item.title : "", required: true },
+        { name: "tags", label: "标签（逗号分隔）", value: item ? item.tags : "", placeholder: "如：Python, 报错, 数学" },
+        { name: "content", label: "内容", type: "textarea", span: 2, value: item ? item.content : "" }
+      ],
+      onSubmit(v) {
+        if (!v.title) { toast("请填写标题"); return false; }
+        const payload = { title: v.title, tags: v.tags || "", content: v.content || "", updatedAt: todayISO() };
+        if (editing) Object.assign(item, payload);
+        else data.notes.unshift({ id: uid(), ...payload });
+        save(editing ? "笔记已更新" : "笔记已保存");
+      }
+    });
+  }
+
+  function quickAdd() {
+    const actions = [
+      { page: "courses", label: "课程", desc: "录入课程与成绩" },
+      { page: "roadmap", label: "学习任务", desc: "加入培养路线" },
+      { page: "projects", label: "项目", desc: "新建实践项目" },
+      { page: "weekly", label: "待办任务", desc: "安排本周行动" },
+      { page: "competitions", label: "竞赛/科研", desc: "登记参赛计划" },
+      { page: "papers", label: "论文", desc: "加入阅读清单" },
+      { page: "milestones", label: "里程碑", desc: "记录重要节点" },
+      { page: "notes", label: "笔记", desc: "记录知识点" }
+    ];
+    openModal({
+      title: "快速新建",
+      subtitle: "选择要添加的内容",
+      noFocus: true,
+      html: `<div class="grid two-col-even">${actions.map(a => `
+        <button type="button" class="card" data-quick="${a.page}" style="text-align:left;cursor:pointer">
+          <div class="row-title">${escapeHtml(a.label)}</div>
+          <div class="row-detail">${escapeHtml(a.desc)}</div>
+        </button>`).join("")}</div>
+        <div class="form-actions"><button type="button" class="button" data-modal-close>关闭</button></div>`,
+      onRender(modal) {
+        modal.querySelectorAll("[data-quick]").forEach(btn => btn.addEventListener("click", () => {
+          const page = btn.dataset.quick;
+          closeModal();
+          navigate(page);
+          setTimeout(() => dispatchAdd(page), 60);
+        }));
+      }
+    });
+  }
+
+  function dispatchAdd(page, extra) {
+    if (page === "courses") addCourseDialog();
+    else if (page === "roadmap") addRoadmapDialog(null, extra);
+    else if (page === "skills") addSkillDialog();
+    else if (page === "projects") addProjectDialog();
+    else if (page === "weekly") addTaskDialog();
+    else if (page === "competitions") addCompetitionDialog();
+    else if (page === "papers") addPaperDialog();
+    else if (page === "milestones") addMilestoneDialog();
+    else if (page === "notes") noteDialog();
+    else if (page === "timelog") addStudyLogDialog();
+    else toast("该模块暂不支持快速新建");
+  }
+
+  /* ============================================================
+     7. 路由与外壳
+     ============================================================ */
+  const PAGES = {
+    overview: { title: "总览", render: () => renderOverview() },
+    courses: { title: "课程与绩点", render: () => renderCourses() },
+    roadmap: { title: "学习路线", render: () => renderRoadmap() },
+    skills: { title: "能力雷达", render: () => renderSkills() },
+    projects: { title: "项目作品集", render: () => renderProjects() },
+    competitions: { title: "竞赛与科研", render: () => renderCompetitions() },
+    papers: { title: "论文阅读", render: () => renderPapers() },
+    weekly: { title: "每周计划", render: () => renderWeekly() },
+    timelog: { title: "时间与习惯", render: () => renderTimeLog() },
+    milestones: { title: "里程碑", render: () => renderMilestones() },
+    directions: { title: "职业方向", render: () => renderDirections() },
+    english: { title: "英语与标化", render: () => renderEnglish() },
+    notes: { title: "知识笔记", render: () => renderNotes() },
+    settings: { title: "数据与设置", render: () => renderSettings() }
+  };
+
+  function navigate(page) {
+    if (!PAGES[page]) page = "overview";
+    currentPage = page;
+    document.getElementById("sidebar").classList.remove("open");
+    render();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function render() {
+    const page = PAGES[currentPage] || PAGES.overview;
+    document.getElementById("content").innerHTML = page.render();
+    document.getElementById("breadcrumbCurrent").textContent = page.title;
+    updateSidebar();
+    if (typeof afterRender === "function") afterRender();
+  }
+
+  let savedLabel = "数据保存在本机浏览器";
+  function updateSidebar() {
+    document.querySelectorAll(".nav button").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.page === currentPage);
+    });
+    const p = data.profile;
+    document.getElementById("profileName").textContent = `${p.school} · ${p.major}`;
+    document.getElementById("profileYear").textContent = `${p.grade} · ${p.campus}`;
+    const badge = document.getElementById("navBadgeWeekly");
+    const open = data.tasks.filter(t => !t.done).length;
+    badge.textContent = String(open);
+    const t = termById(currentTerm());
+    document.getElementById("profileWeek").textContent = t ? `当前学期：${t.label}（${t.sub}）` : "";
+    const el = document.getElementById("profileSaved");
+    if (el) el.textContent = savedLabel;
+  }
+
+  function applyTheme() {
+    document.documentElement.setAttribute("data-theme", data.settings.theme === "dark" ? "dark" : "light");
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", data.settings.theme === "dark" ? "#141715" : "#f6f7f5");
+  }
+
+  /* 事件委托：内容区统一处理 click / change / input / submit */
+  function bindGlobalEvents() {
+    document.getElementById("content").addEventListener("click", onContentClick);
+    document.getElementById("content").addEventListener("change", onContentChange);
+    document.getElementById("content").addEventListener("input", onContentInput);
+    document.getElementById("content").addEventListener("submit", onContentSubmit);
+
+    document.querySelectorAll(".nav button").forEach(btn => {
+      btn.addEventListener("click", () => navigate(btn.dataset.page));
+    });
+    document.getElementById("menuButton").addEventListener("click", () => {
+      document.getElementById("sidebar").classList.toggle("open");
+    });
+    document.getElementById("quickAdd").addEventListener("click", quickAdd);
+    document.getElementById("modalBackdrop").addEventListener("click", event => {
+      if (event.target.id === "modalBackdrop") closeModal();
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        if (document.getElementById("modalBackdrop").classList.contains("show")) closeModal();
+        else document.getElementById("sidebar").classList.remove("open");
+      }
+      if (event.altKey && !event.ctrlKey && !event.metaKey && /^[1-9]$/.test(event.key)) {
+        const order = ["overview", "courses", "roadmap", "skills", "projects", "competitions", "papers", "weekly", "timelog"];
+        const page = order[Number(event.key) - 1];
+        if (page) { event.preventDefault(); navigate(page); }
+      }
+    });
+  }
+  /* ============================================================
+     8. 页面：总览
+     ============================================================ */
+  function greeting() {
+    const h = new Date().getHours();
+    if (h < 6) return "夜深了";
+    if (h < 11) return "早上好";
+    if (h < 14) return "中午好";
+    if (h < 18) return "下午好";
+    return "晚上好";
+  }
+
+  function renderOverview() {
+    const rp = roadmapProgress();
+    const cs = courseStats(data.courses);
+    const sa = skillAverages();
+    const weekHours = round(studyHoursBetween(weekStartISO(), weekEndISO()), 1);
+    const target = num(data.profile.weeklyHours, 15) || 15;
+    const weekPercent = target > 0 ? Math.min(100, Math.round(weekHours / target * 100)) : 0;
+    const term = currentTerm();
+    const termInfo = termById(term);
+    const termItems = data.roadmap.filter(r => r.term === term);
+    const termDone = termItems.filter(r => r.done).length;
+    const openTasks = sortByDate(data.tasks.filter(t => !t.done));
+    const focus = openTasks.filter(t => t.priority === "高").slice(0, 4);
+    const focusList = focus.length ? focus : openTasks.slice(0, 4);
+    const upcoming = upcomingMilestones(4);
+    const p = data.profile;
+    const gpaGap = round(num(p.gpaGoal, 0) - cs.gpa, 2);
+    const compSoon = sortByDate(data.competitions.filter(c => c.status === "待报名" || c.status === "备赛中"), "deadline")
+      .filter(c => { const d = daysFromToday(c.deadline); return d !== null && d >= 0; }).slice(0, 3);
+
+    return `
+      <div class="page-head">
+        <div>
+          <h1>${greeting()}${p.name ? "，" + escapeHtml(p.name) : ""} 👋</h1>
+          <p class="subtitle">${escapeHtml(p.school)} ${escapeHtml(p.college)} · ${escapeHtml(p.major)} · ${escapeHtml(p.grade)}
+            ${termInfo ? ` · 当前 ${escapeHtml(termInfo.label)}（${escapeHtml(termInfo.sub)}）` : ""}</p>
+        </div>
+        <div class="btn-row">
+          <button class="button" data-action="log-study">◔ 记学习时间</button>
+          <button class="button primary" data-action="add-task">＋ 添加任务</button>
+        </div>
+      </div>
+
+      <section class="grid stats">
+        <div class="stat-card accent-green">
+          <div class="stat-label">培养路线完成</div>
+          <div class="stat-value">${rp.percent}<span class="unit">%</span></div>
+          <div>${progressBar(rp.percent)}</div>
+          <div class="stat-hint">${rp.done} / ${rp.total} 项任务已完成</div>
+        </div>
+        <div class="stat-card accent-blue">
+          <div class="stat-label">加权平均分 / 绩点</div>
+          <div class="stat-value">${cs.average || "—"}<span class="unit"> / ${cs.gpa || "—"}</span></div>
+          <div class="stat-hint">${cs.count} 门已出分 · 计划总学分 ${remainingCredits()}</div>
+        </div>
+        <div class="stat-card accent-violet">
+          <div class="stat-label">能力自评均分</div>
+          <div class="stat-value">${sa.now}<span class="unit"> / 5</span></div>
+          <div class="stat-hint">目标均分 ${sa.target} · 差距 ${round(sa.target - sa.now, 2)}</div>
+        </div>
+        <div class="stat-card accent-amber">
+          <div class="stat-label">本周投入</div>
+          <div class="stat-value">${weekHours}<span class="unit"> / ${target} 小时</span></div>
+          <div>${progressBar(weekPercent, "amber")}</div>
+          <div class="stat-hint">按周目标完成度 ${weekPercent}%</div>
+        </div>
+      </section>
+
+      <section class="grid two-col">
+        <div class="panel">
+          ${sectionHeader(`本学期路线（${termInfo ? termInfo.label : "—"}）`, `${termDone} / ${termItems.length} 项已完成`, `<button class="button small" data-go="roadmap">全部路线 →</button>`)}
+          ${progressBar(termItems.length ? Math.round(termDone / termItems.length * 100) : 0)}
+          <div class="list section-gap">
+            ${termItems.length ? termItems.slice(0, 6).map(item => `
+              <label class="row row-cb">
+                <input type="checkbox" data-toggle="roadmap" data-id="${item.id}" ${item.done ? "checked" : ""}>
+                <span>
+                  <span class="row-title ${item.done ? "done" : ""}">${escapeHtml(item.title)}</span>
+                  <span class="row-detail">${escapeHtml(item.detail || "—")}</span>
+                </span>
+                ${phaseTag(item.phase)}
+              </label>`).join("") : emptyRow("本学期还没有安排学习任务。")}
+          </div>
+        </div>
+
+        <div class="panel">
+          ${sectionHeader("今日聚焦", "优先处理高优先级与临近截止的任务", `<button class="button small" data-go="weekly">管理 →</button>`)}
+          <div class="list">
+            ${focusList.length ? focusList.map(task => `
+              <label class="row row-cb">
+                <input type="checkbox" data-toggle="task" data-id="${task.id}" ${task.done ? "checked" : ""}>
+                <span>
+                  <span class="row-title ${task.done ? "done" : ""}">${escapeHtml(task.title)}</span>
+                  <span class="row-detail">${escapeHtml(task.category)}${task.date ? " · 截止 " + fmtDate(task.date, true) : ""}${num(task.est) ? " · 预计 " + num(task.est) + "h" : ""}</span>
+                </span>
+                ${priorityTag(task.priority)}
+              </label>`).join("") : emptyRow("没有待办任务，去「每周计划」添加一条吧。")}
+          </div>
+          <div class="sep"></div>
+          <div class="ring-wrap">
+            ${ring(rp.percent, { size: 72 })}
+            <div>
+              <div class="row-title">培养路线总进度</div>
+              <div class="row-detail">距离目标绩点 ${num(p.gpaGoal)} 还差 ${gpaGap > 0 ? gpaGap : 0} 分（当前 ${cs.gpa || "—"}）</div>
+              <div class="row-detail">已记录 ${data.studyLog.length} 条学习时间</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid two-col section-gap">
+        <div class="panel">
+          ${sectionHeader("能力雷达", "绿色为当前水平，橙色虚线为目标", `<button class="button small" data-go="skills">调整 →</button>`)}
+          <div class="radar-box">${radarChart(data.skills, 380)}</div>
+        </div>
+
+        <div class="panel">
+          ${sectionHeader("近期节点与竞赛", "把握关键时间点", `<button class="button small" data-go="milestones">时间线 →</button>`)}
+          <div class="list">
+            ${upcoming.length ? upcoming.map(m => `
+              <div class="row row-cb">
+                <span class="nav-icon">${m.category === "竞赛" ? "★" : m.category === "考试" ? "✎" : "◆"}</span>
+                <span>
+                  <span class="row-title">${escapeHtml(m.title)}</span>
+                  <span class="row-detail">${fmtDate(m.date, true)} · ${escapeHtml(m.category)}</span>
+                </span>
+                ${countdownTag(m.days)}
+              </div>`).join("") : emptyRow("没有即将到来的节点。")}
+          </div>
+          ${compSoon.length ? `<div class="sep"></div>
+            <div class="row-detail" style="margin-bottom:6px">竞赛报名提醒</div>
+            <div class="list">${compSoon.map(c => `
+              <div class="row row-cb">
+                <span class="nav-icon">★</span>
+                <span><span class="row-title">${escapeHtml(c.name)}</span>
+                <span class="row-detail">${escapeHtml(c.status)}${c.deadline ? " · 截止 " + fmtDate(c.deadline) : ""}</span></span>
+                ${countdownTag(daysFromToday(c.deadline))}
+              </div>`).join("")}</div>` : ""}
+        </div>
+      </section>
+
+      <section class="grid two-col section-gap">
+        <div class="panel">
+          ${sectionHeader("近 7 日学习投入", `本周累计 ${weekHours} 小时`, `<button class="button small" data-go="timelog">时间与习惯 →</button>`)}
+          ${barChart(last7Days(), { unit: "h" })}
+        </div>
+        <div class="panel">
+          ${sectionHeader("本周任务概览", `${data.tasks.filter(t => t.done).length} / ${data.tasks.length} 项完成`, `<button class="button small" data-go="weekly">详情 →</button>`)}
+          <div class="list scroll-y">
+            ${data.tasks.length ? data.tasks.slice(0, 8).map(task => `
+              <label class="row row-cb">
+                <input type="checkbox" data-toggle="task" data-id="${task.id}" ${task.done ? "checked" : ""}>
+                <span><span class="row-title ${task.done ? "done" : ""}">${escapeHtml(task.title)}</span>
+                <span class="row-detail">${escapeHtml(task.category)}</span></span>
+                ${task.done ? tag("完成", "green") : priorityTag(task.priority)}
+              </label>`).join("") : emptyRow("还没有任务。")}
+          </div>
+        </div>
+      </section>
+
+      <section class="panel section-gap">
+        ${sectionHeader("项目作品集概览", `${data.projects.filter(x => x.status === "已完成").length} / ${data.projects.length} 个已完成`)}
+        <div class="grid three-col">
+          ${data.projects.slice(0, 3).map(pr => `
+            <article class="card">
+              <div class="card-top"><h3>${escapeHtml(pr.title)}</h3>${tag(pr.status, statusTone(pr.status))}</div>
+              <p>${escapeHtml((pr.description || "").slice(0, 90))}${(pr.description || "").length > 90 ? "…" : ""}</p>
+              <div class="card-foot"><span class="tag-row">${(pr.skills || "").split(/[,，]/).filter(Boolean).slice(0, 3).map(s => tag(s.trim(), "teal")).join("")}</span></div>
+            </article>`).join("") || emptyRow("还没有项目。")}
+        </div>
+        <div class="form-actions"><button class="button small" data-go="projects">查看全部项目 →</button></div>
+      </section>`;
+  }
+
+  /* ============================================================
+     9. 页面：课程与绩点
+     ============================================================ */
+  function filteredCourses() {
+    let list = data.courses.slice();
+    if (ui.termFilter && ui.termFilter !== "all") list = list.filter(c => c.term === ui.termFilter);
+    const q = (ui.courseSearch || "").trim().toLowerCase();
+    if (q) list = list.filter(c => (c.name + c.teacher + c.type).toLowerCase().includes(q));
+    return list;
+  }
+
+  function renderCourses() {
+    const all = courseStats(data.courses);
+    const list = filteredCourses();
+    const view = courseStats(list);
+    const byTerm = terms().map(t => ({
+      term: t,
+      stats: courseStats(data.courses.filter(c => c.term === t.id)),
+      count: data.courses.filter(c => c.term === t.id).length
+    })).filter(row => row.count > 0);
+    const goal = num(data.profile.gpaGoal, 0);
+
+    return `
+      <div class="page-head">
+        <div>
+          <h1>课程与绩点</h1>
+          <p class="subtitle">录入每门课的学分与成绩，自动计算加权平均分和 4.0 制绩点。保研、评奖与交换都看重绩点，越早清楚越好。</p>
+        </div>
+        <div class="btn-row"><button class="button primary" data-action="add-course">＋ 添加课程</button></div>
+      </div>
+
+      <section class="grid stats">
+        <div class="stat-card accent-green">
+          <div class="stat-label">总加权平均分</div>
+          <div class="stat-value">${all.average || "—"}</div>
+          <div class="stat-hint">按学分加权 · ${all.count} 门已出分</div>
+        </div>
+        <div class="stat-card accent-blue">
+          <div class="stat-label">当前绩点（4.0 制）</div>
+          <div class="stat-value">${all.gpa || "—"}</div>
+          <div class="stat-hint">目标 ${goal || "—"} · ${goal && all.gpa ? (all.gpa >= goal ? "已达成 🎉" : `还差 ${round(goal - all.gpa, 2)}`) : "在设置中设定目标"}</div>
+        </div>
+        <div class="stat-card accent-violet">
+          <div class="stat-label">已出分学分</div>
+          <div class="stat-value">${all.credits}<span class="unit"> 学分</span></div>
+          <div class="stat-hint">计划总学分 ${all.totalCredits}</div>
+        </div>
+        <div class="stat-card accent-amber">
+          <div class="stat-label">当前筛选结果</div>
+          <div class="stat-value">${view.count}<span class="unit"> 门</span></div>
+          <div class="stat-hint">均分 ${view.average || "—"} · 绩点 ${view.gpa || "—"}</div>
+        </div>
+      </section>
+
+      <div class="panel">
+        <div class="toolbar">
+          <div class="field" style="flex:0 1 190px">
+            <label for="courseTermFilter">学期</label>
+            <select id="courseTermFilter" data-filter="course-term">
+              <option value="all" ${ui.termFilter === "all" ? "selected" : ""}>全部学期</option>
+              ${terms().map(t => `<option value="${t.id}" ${ui.termFilter === t.id ? "selected" : ""}>${t.label}（${t.sub}）</option>`).join("")}
+            </select>
+          </div>
+          <div class="field" style="flex:0 1 220px">
+            <label for="courseSearch">搜索</label>
+            <input id="courseSearch" data-filter="course-search" value="${escapeHtml(ui.courseSearch)}" placeholder="课程名 / 教师 / 类别">
+          </div>
+          <div class="field" style="flex:0 0 auto">
+            <label>&nbsp;</label>
+            <button class="button" data-action="add-course">＋ 添加课程</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="min-width:170px">课程</th>
+                <th>学期</th>
+                <th class="num">学分</th>
+                <th>类别</th>
+                <th>状态</th>
+                <th class="num" style="min-width:88px">成绩</th>
+                <th class="num">绩点</th>
+                <th class="col-tight"></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${list.length ? list.map(c => `
+                <tr>
+                  <td><span class="row-title">${escapeHtml(c.name)}</span>${c.teacher ? `<div class="row-detail">${escapeHtml(c.teacher)}</div>` : ""}</td>
+                  <td class="nowrap muted">${escapeHtml(termLabel(c.term))}</td>
+                  <td class="num">${num(c.credits)}</td>
+                  <td>${tag(c.type, c.type === "必修" ? "green" : c.type === "选修" ? "blue" : "")}</td>
+                  <td>
+                    <select data-course-status="${c.id}">
+                      ${COURSE_STATUS.map(s => `<option ${c.status === s ? "selected" : ""}>${s}</option>`).join("")}
+                    </select>
+                  </td>
+                  <td class="num">
+                    <input type="number" min="0" max="100" step="0.5" value="${c.score == null ? "" : c.score}"
+                      data-course-score="${c.id}" placeholder="—" style="text-align:right">
+                  </td>
+                  <td class="num">${c.score == null || c.score === "" ? "—" : scoreToGp(c.score).toFixed(1)}</td>
+                  <td class="delete-cell">
+                    <button class="button icon small" data-edit="course" data-id="${c.id}" title="编辑">✎</button>
+                    <button class="button icon small danger" data-del="course" data-id="${c.id}" title="删除">×</button>
+                  </td>
+                </tr>`).join("") : `<tr><td colspan="8">${emptyRow("没有符合条件的课程。")}</td></tr>`}
+            </tbody>
+            ${list.length ? `<tfoot class="tfoot"><tr>
+              <td>合计 / 加权</td><td>—</td>
+              <td class="num">${view.totalCredits}</td><td colspan="2">—</td>
+              <td class="num">${view.average || "—"}</td>
+              <td class="num">${view.gpa || "—"}</td><td></td>
+            </tr></tfoot>` : ""}
+          </table>
+        </div>
+        <div class="panel-subtitle" style="margin-top:10px">
+          绩点换算参考：90+ → 4.0，85–89 → 3.7，82–84 → 3.3，78–81 → 3.0，75–77 → 2.7，72–74 → 2.3，68–71 → 2.0，64–67 → 1.5，60–63 → 1.0。
+        </div>
+      </div>
+
+      <section class="panel section-gap">
+        ${sectionHeader("学期成绩汇总", "用于观察绩点趋势，判断是否需要调整选课策略")}
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>学期</th><th class="num">课程数</th><th class="num">已出分</th><th class="num">学分</th><th class="num">加权平均分</th><th class="num">绩点</th><th>趋势</th></tr></thead>
+            <tbody>
+              ${byTerm.length ? byTerm.map((row, i) => {
+                const prev = i > 0 ? byTerm[i - 1].stats.gpa : null;
+                const diff = prev ? round(row.stats.gpa - prev, 2) : null;
+                return `<tr>
+                  <td class="nowrap">${escapeHtml(row.term.label)} <span class="muted">${escapeHtml(row.term.sub)}</span></td>
+                  <td class="num">${row.count}</td>
+                  <td class="num">${row.stats.count}</td>
+                  <td class="num">${row.stats.totalCredits}</td>
+                  <td class="num">${row.stats.average || "—"}</td>
+                  <td class="num">${row.stats.gpa || "—"}</td>
+                  <td>${diff === null ? "—" : diff > 0 ? `<span class="tag green">↑ ${diff}</span>` : diff < 0 ? `<span class="tag red">↓ ${Math.abs(diff)}</span>` : `<span class="tag">持平</span>`}</td>
+                </tr>`;
+              }).join("") : `<tr><td colspan="7">${emptyRow("还没有录入课程。")}</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      </section>`;
+  }
+
+  /* ============================================================
+     10. 页面：学习路线
+     ============================================================ */
+  function renderRoadmap() {
+    const rp = roadmapProgress();
+    const map = roadmapByTerm();
+    const filter = ui.roadmapTerm || "cur";
+    const now = currentTerm();
+    const listTerms = filter === "all"
+      ? terms()
+      : filter === "cur"
+        ? terms().filter(t => t.id === now)
+        : terms().filter(t => t.id === filter);
+
+    const phaseCount = {};
+    data.roadmap.forEach(r => { phaseCount[r.phase] = (phaseCount[r.phase] || 0) + 1; });
+
+    return `
+      <div class="page-head">
+        <div>
+          <h1>学习路线</h1>
+          <p class="subtitle">按四年八个学期编排的成长路线：数学与编程打底，数据与 AI 逐步深入，最后落到科研、竞赛与求职。可以随时增删改。</p>
+        </div>
+        <div class="btn-row"><button class="button primary" data-action="add-roadmap">＋ 添加任务</button></div>
+      </div>
+
+      <div class="panel">
+        ${sectionHeader("总体进度", `已完成 ${rp.done} 项，共 ${rp.total} 项`, `
+          <div class="field" style="flex:0 0 170px">
+            <select data-filter="roadmap-term">
+              <option value="cur" ${filter === "cur" ? "selected" : ""}>当前学期</option>
+              <option value="all" ${filter === "all" ? "selected" : ""}>全部学期</option>
+              ${terms().map(t => `<option value="${t.id}" ${filter === t.id ? "selected" : ""}>${t.label}（${t.sub}）</option>`).join("")}
+            </select>
+          </div>`)}
+        ${progressBar(rp.percent)}
+        <div class="progress-legend"><span>完成度 ${rp.percent}%</span><span>${rp.done} / ${rp.total}</span></div>
+        <div class="tag-row section-gap">
+          ${PHASES.filter(ph => phaseCount[ph]).map(ph => {
+            const items = data.roadmap.filter(r => r.phase === ph);
+            const done = items.filter(r => r.done).length;
+            return tag(`${ph} ${done}/${items.length}`, PHASE_TONE[ph] || "");
+          }).join("")}
+        </div>
+      </div>
+
+      ${listTerms.map(t => {
+        const items = map.get(t.id) || [];
+        if (!items.length) return "";
+        const done = items.filter(r => r.done).length;
+        const isNow = t.id === now;
+        return `
+        <section class="panel section-gap">
+          <div class="panel-head">
+            <div>
+              <h2>${escapeHtml(t.label)} <span class="muted" style="font-weight:400">· ${escapeHtml(t.sub)}</span>${isNow ? ` ${tag("当前", "green")}` : ""}</h2>
+              <div class="panel-subtitle">${done} / ${items.length} 项已完成</div>
+            </div>
+            <div class="panel-actions">
+              ${progressBar(items.length ? Math.round(done / items.length * 100) : 0)}
+              <button class="button small" data-add-roadmap-term="${t.id}">＋ 添加到本学期</button>
+            </div>
+          </div>
+          <div class="list">
+            ${items.map(item => `
+              <div class="row row-cb2">
+                <input type="checkbox" data-toggle="roadmap" data-id="${item.id}" ${item.done ? "checked" : ""}>
+                <span>
+                  <span class="row-title ${item.done ? "done" : ""}">${escapeHtml(item.title)}</span>
+                  <span class="row-detail">${escapeHtml(item.detail || "—")}</span>
+                </span>
+                ${phaseTag(item.phase)}
+                <span class="row-side">
+                  <button class="button icon small" data-edit="roadmap" data-id="${item.id}" title="编辑">✎</button>
+                  <button class="button icon small danger" data-del="roadmap" data-id="${item.id}" title="删除">×</button>
+                </span>
+              </div>`).join("")}
+          </div>
+        </section>`;
+      }).join("")}
+
+      ${listTerms.every(t => !(map.get(t.id) || []).length) ? `<div class="panel section-gap">${emptyRow("该学期还没有安排，点击右上角添加。")}</div>` : ""}`;
+  }
+
+  /* ============================================================
+     11. 页面：能力雷达
+     ============================================================ */
+  function renderSkills() {
+    const sa = skillAverages();
+    const gaps = data.skills
+      .map(s => ({ ...s, gap: num(s.target) - num(s.score) }))
+      .sort((a, b) => b.gap - a.gap);
+    const weakest = gaps.slice(0, 3).filter(s => s.gap > 0);
+    const strongest = [...gaps].sort((a, b) => b.score - a.score).slice(0, 3);
+
+    return `
+      <div class="page-head">
+        <div>
+          <h1>能力雷达</h1>
+          <p class="subtitle">用滑块给自己打分，每学期复盘一次。评分请以「能不能独立做出东西」为准，而不是「听没听过」。</p>
+        </div>
+        <div class="btn-row"><button class="button primary" data-action="add-skill">＋ 添加能力</button></div>
+      </div>
+
+      <section class="grid stats stats-3">
+        <div class="stat-card accent-violet">
+          <div class="stat-label">当前均分</div>
+          <div class="stat-value">${sa.now}<span class="unit"> / 5</span></div>
+          <div class="stat-hint">共 ${data.skills.length} 个能力维度</div>
+        </div>
+        <div class="stat-card accent-amber">
+          <div class="stat-label">目标均分</div>
+          <div class="stat-value">${sa.target}<span class="unit"> / 5</span></div>
+          <div class="stat-hint">与当前差距 ${round(sa.target - sa.now, 2)}</div>
+        </div>
+        <div class="stat-card accent-green">
+          <div class="stat-label">最需补强</div>
+          <div class="stat-value" style="font-size:17px">${weakest.length ? escapeHtml(weakest[0].name) : "—"}</div>
+          <div class="stat-hint">${weakest.length ? `差距 ${weakest[0].gap} 分` : "各维度差距都不大"}</div>
+        </div>
+      </section>
+
+      <section class="grid two-col">
+        <div class="panel">
+          ${sectionHeader("能力雷达图", "绿色实线＝当前水平，橙色虚线＝目标水平")}
+          <div class="radar-box" id="radarBox">${radarChart(data.skills)}</div>
+          <div class="sep"></div>
+          <div class="grid two-col-even">
+            <div>
+              <div class="row-detail" style="margin-bottom:5px">💪 相对优势</div>
+              <div class="tag-row">${strongest.map(s => tag(`${s.name} ${s.score}`, "green")).join("") || tag("—")}</div>
+            </div>
+            <div>
+              <div class="row-detail" style="margin-bottom:5px">🎯 优先补强</div>
+              <div class="tag-row">${weakest.map(s => tag(`${s.name} 差 ${s.gap}`, "amber")).join("") || tag("暂无")}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          ${sectionHeader("自评明细", "0 未接触 · 1 知道概念 · 2 能跟做 · 3 能独立完成 · 4 能优化改进 · 5 能讲解/创新")}
+          <div class="list scroll-y">
+            ${data.skills.length ? data.skills.map(skill => `
+              <div class="skill-row">
+                <span class="skill-name">${escapeHtml(skill.name)}</span>
+                <input type="range" min="0" max="5" step="1" value="${clamp(skill.score, 0, 5)}"
+                  data-skill-slider="${skill.id}" aria-label="${escapeHtml(skill.name)} 当前水平">
+                <span class="skill-score" id="score-${skill.id}">${clamp(skill.score, 0, 5)}<span class="muted"> /${clamp(skill.target, 0, 5)}</span></span>
+              </div>`).join("") : emptyRow("还没有能力项。")}
+          </div>
+        </div>
+      </section>
+
+      <section class="panel section-gap">
+        ${sectionHeader("能力项管理", "设置目标水平，用于判断学习优先级")}
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th style="min-width:180px">能力</th><th class="num">当前</th><th>水平描述</th><th class="num">目标</th><th class="num">差距</th><th class="col-tight"></th></tr></thead>
+            <tbody>
+              ${data.skills.map(s => {
+                const gap = num(s.target) - num(s.score);
+                return `<tr>
+                  <td><span class="row-title">${escapeHtml(s.name)}</span></td>
+                  <td class="num">${num(s.score)}</td>
+                  <td class="muted">${escapeHtml(levelLabel(s.score))}</td>
+                  <td class="num">${num(s.target)}</td>
+                  <td class="num">${gap > 0 ? `<span class="tag amber">${gap}</span>` : `<span class="tag green">已达成</span>`}</td>
+                  <td class="delete-cell">
+                    <button class="button icon small" data-edit="skill" data-id="${s.id}" title="编辑">✎</button>
+                    <button class="button icon small danger" data-del="skill" data-id="${s.id}" title="删除">×</button>
+                  </td>
+                </tr>`;
+              }).join("") || `<tr><td colspan="6">${emptyRow("还没有能力项。")}</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      </section>`;
+  }
+
+  /* ============================================================
+     12. 页面：项目作品集
+     ============================================================ */
+  function renderProjects() {
+    const filter = ui.projectFilter || "all";
+    const list = filter === "all" ? data.projects : data.projects.filter(p => p.status === filter);
+    const counts = PROJECT_STATUS.map(s => ({ s, n: data.projects.filter(p => p.status === s).length }));
+    const checklist = [
+      "问题与目标写清楚了", "数据来源与许可已注明", "有可比较的基线",
+      "评估指标选择合理", "分析了失败案例与局限", "README 写清运行方法",
+      "代码可复现（环境/随机种子）", "有可视化或结果展示"
+    ];
+
+    return `
+      <div class="page-head">
+        <div>
+          <h1>项目作品集</h1>
+          <p class="subtitle">项目是能力最有力的证据。大一先做小而完整的项目：能跑通、能解释、别人能复现，比规模大更重要。</p>
+        </div>
+        <div class="btn-row"><button class="button primary" data-action="add-project">＋ 新建项目</button></div>
+      </div>
+
+      <section class="grid stats stats-3">
+        <div class="stat-card accent-green">
+          <div class="stat-label">已完成项目</div>
+          <div class="stat-value">${counts.find(c => c.s === "已完成").n}<span class="unit"> / ${data.projects.length}</span></div>
+          <div class="stat-hint">完成度是作品集的核心</div>
+        </div>
+        <div class="stat-card accent-blue">
+          <div class="stat-label">进行中</div>
+          <div class="stat-value">${counts.find(c => c.s === "进行中").n}</div>
+          <div class="stat-hint">同时推进不超过 2 个</div>
+        </div>
+        <div class="stat-card accent-amber">
+          <div class="stat-label">构思中</div>
+          <div class="stat-value">${counts.find(c => c.s === "构思").n}</div>
+          <div class="stat-hint">挑一个尽快开始</div>
+        </div>
+      </section>
+
+      <div class="toolbar">
+        <div class="field" style="flex:0 1 180px">
+          <label for="projectFilter">筛选状态</label>
+          <select id="projectFilter" data-filter="project-status">
+            <option value="all" ${filter === "all" ? "selected" : ""}>全部状态</option>
+            ${PROJECT_STATUS.map(s => `<option value="${s}" ${filter === s ? "selected" : ""}>${s}（${counts.find(c => c.s === s).n}）</option>`).join("")}
+          </select>
+        </div>
+      </div>
+
+      <div class="grid two-col-even">
+        ${list.length ? list.map(pr => `
+          <article class="card">
+            <div class="card-top">
+              <div>
+                <h3>${escapeHtml(pr.title)}</h3>
+                <div class="row-detail">${escapeHtml(termLabel(pr.term))}</div>
+              </div>
+              ${tag(pr.status, statusTone(pr.status))}
+            </div>
+            <p>${escapeHtml(pr.description || "—")}</p>
+            ${pr.outcome ? `<div class="row-detail" style="margin:-4px 0 8px">🏁 产出：${escapeHtml(pr.outcome)}</div>` : ""}
+            <div class="tag-row">${(pr.skills || "").split(/[,，]/).filter(Boolean).map(s => tag(s.trim(), "teal")).join("")}</div>
+            <div class="card-foot" style="margin-top:11px">
+              <select data-project-status="${pr.id}" style="flex:1;padding:5px 6px;border:1px solid var(--line);border-radius:5px;background:var(--surface)">
+                ${PROJECT_STATUS.map(s => `<option ${pr.status === s ? "selected" : ""}>${s}</option>`).join("")}
+              </select>
+              <span class="row-side">
+                ${pr.link ? `<a class="button small" href="${escapeHtml(pr.link)}" target="_blank" rel="noopener">链接</a>` : ""}
+                <button class="button icon small" data-edit="project" data-id="${pr.id}" title="编辑">✎</button>
+                <button class="button icon small danger" data-del="project" data-id="${pr.id}" title="删除">×</button>
+              </span>
+            </div>
+          </article>`).join("") : `<div class="panel">${emptyRow("还没有符合条件的项目，点击「新建项目」开始。")}</div>`}
+      </div>
+
+      <section class="panel section-gap">
+        ${sectionHeader("项目完成度自查清单", "每个项目收尾前逐条检查，这是「可复现」和「能写进简历」的分界线")}
+        <div class="grid two-col-even">
+          ${checklist.map((item, i) => `
+            <label class="row row-cb">
+              <input type="checkbox" data-check="project-${i}">
+              <span class="row-title">${escapeHtml(item)}</span>
+            </label>`).join("")}
+        </div>
+      </section>`;
+  }
+
+  /* ============================================================
+     13. 页面：竞赛与科研
+     ============================================================ */
+  function renderCompetitions() {
+    const list = sortByDate(data.competitions, "deadline");
+    const active = data.competitions.filter(c => c.status === "备赛中" || c.status === "已参赛").length;
+    const won = data.competitions.filter(c => (c.result || "").trim()).length;
+    const byCategory = {};
+    data.competitions.forEach(c => { byCategory[c.category || "综合"] = (byCategory[c.category || "综合"] || 0) + 1; });
+
+    return `
+      <div class="page-head">
+        <div>
+          <h1>竞赛与科研</h1>
+          <p class="subtitle">竞赛检验能力、科研积累深度。大一可以先参赛体验流程，大二起选择 1–2 个方向持续投入，避免摊大饼。</p>
+        </div>
+        <div class="btn-row"><button class="button primary" data-action="add-competition">＋ 添加</button></div>
+      </div>
+
+      <section class="grid stats">
+        <div class="stat-card accent-green">
+          <div class="stat-label">登记项目</div>
+          <div class="stat-value">${data.competitions.length}</div>
+          <div class="stat-hint">${Object.entries(byCategory).map(([k, v]) => `${k} ${v}`).join(" · ") || "—"}</div>
+        </div>
+        <div class="stat-card accent-blue">
+          <div class="stat-label">进行中</div>
+          <div class="stat-value">${active}</div>
+          <div class="stat-hint">备赛 / 已参赛</div>
+        </div>
+        <div class="stat-card accent-amber">
+          <div class="stat-label">已获结果</div>
+          <div class="stat-value">${won}</div>
+          <div class="stat-hint">填写了奖项或成果</div>
+        </div>
+        <div class="stat-card accent-violet">
+          <div class="stat-label">最近截止</div>
+          <div class="stat-value" style="font-size:17px">${(() => {
+            const next = list.filter(c => { const d = daysFromToday(c.deadline); return d !== null && d >= 0; })[0];
+            return next ? escapeHtml(next.name.slice(0, 12)) : "—";
+          })()}</div>
+          <div class="stat-hint">${(() => {
+            const next = list.filter(c => { const d = daysFromToday(c.deadline); return d !== null && d >= 0; })[0];
+            return next ? fmtDate(next.deadline, true) + " · " + daysLabel(daysFromToday(next.deadline)) : "暂无";
+          })()}</div>
+        </div>
+      </section>
+
+      <div class="panel">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th style="min-width:210px">名称</th><th>类别</th><th>级别</th><th>日期</th><th>倒计时</th><th>状态</th><th>结果</th><th class="col-tight"></th></tr>
+            </thead>
+            <tbody>
+              ${list.length ? list.map(c => `
+                <tr>
+                  <td>
+                    <span class="row-title">${escapeHtml(c.name)}</span>
+                    ${c.note ? `<div class="row-detail">${escapeHtml(c.note)}</div>` : ""}
+                  </td>
+                  <td>${tag(c.category || "综合", "teal")}</td>
+                  <td class="muted">${escapeHtml(c.level || "—")}</td>
+                  <td class="nowrap muted">${c.deadline ? fmtDate(c.deadline) : "—"}</td>
+                  <td>${countdownTag(daysFromToday(c.deadline))}</td>
+                  <td>
+                    <select data-comp-status="${c.id}">
+                      ${COMP_STATUS.map(s => `<option ${c.status === s ? "selected" : ""}>${s}</option>`).join("")}
+                    </select>
+                  </td>
+                  <td>${c.result ? tag(c.result, "green") : `<span class="muted">—</span>`}</td>
+                  <td class="delete-cell">
+                    <button class="button icon small" data-edit="competition" data-id="${c.id}" title="编辑">✎</button>
+                    <button class="button icon small danger" data-del="competition" data-id="${c.id}" title="删除">×</button>
+                  </td>
+                </tr>`).join("") : `<tr><td colspan="8">${emptyRow("还没有登记竞赛。")}</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <section class="panel section-gap">
+        ${sectionHeader("适合人工智能专业的常见赛事", "按兴趣与时间选择，切忌同时铺开")}
+        <div class="grid three-col">
+          ${[
+            { t: "算法类", d: "蓝桥杯、ACM-ICPC/CCPC、LeetCode 周赛 —— 打牢编程与算法基本功，也是笔试机试的底气。", tone: "green" },
+            { t: "数学建模类", d: "全国大学生数学建模竞赛（9 月）、美赛 MCM/ICM（2 月）—— 训练建模、编程、写作三人协作。", tone: "blue" },
+            { t: "AI / 数据类", d: "Kaggle、中国高校计算机大赛·人工智能创意赛 —— 直接锻炼数据处理与模型调优能力。", tone: "violet" },
+            { t: "创新创业类", d: "大创、挑战杯、互联网+ —— 适合把课程项目打磨成完整作品，产出可写入简历。", tone: "amber" },
+            { t: "科研训练", d: "进实验室、参与课题、尝试复现与改进论文 —— 读研方向的关键积累。", tone: "teal" },
+            { t: "专业竞赛", d: "中国大学生计算机设计大赛、软件测试大赛等 —— 门槛适中，容易拿到第一份奖项。", tone: "" }
+          ].map(c => `<article class="card"><div class="card-top"><h3>${c.t}</h3></div><p>${c.d}</p></article>`).join("")}
+        </div>
+      </section>`;
+  }
+
+  /* ============================================================
+     14. 页面：论文阅读
+     ============================================================ */
+  function renderPapers() {
+    const filter = ui.paperFilter || "all";
+    const list = filter === "all" ? data.papers : data.papers.filter(p => p.status === filter);
+    const done = data.papers.filter(p => p.status === "已读" || p.status === "精读").length;
+    const avgRating = data.papers.length ? round(data.papers.reduce((s, p) => s + num(p.rating), 0) / data.papers.length, 1) : 0;
+
+    return `
+      <div class="page-head">
+        <div>
+          <h1>论文阅读</h1>
+          <p class="subtitle">读论文是 AI 专业的日常。建议从经典论文起步，先读摘要与图表，再用一句话总结它解决了什么问题、怎么解决的。</p>
+        </div>
+        <div class="btn-row"><button class="button primary" data-action="add-paper">＋ 添加论文</button></div>
+      </div>
+
+      <section class="grid stats stats-3">
+        <div class="stat-card accent-green">
+          <div class="stat-label">已读 / 精读</div>
+          <div class="stat-value">${done}<span class="unit"> / ${data.papers.length}</span></div>
+          <div class="stat-hint">精读比泛读更有价值</div>
+        </div>
+        <div class="stat-card accent-amber">
+          <div class="stat-label">在读</div>
+          <div class="stat-value">${data.papers.filter(p => p.status === "在读").length}</div>
+          <div class="stat-hint">同时读不超过 2 篇</div>
+        </div>
+        <div class="stat-card accent-violet">
+          <div class="stat-label">平均重要度</div>
+          <div class="stat-value">${avgRating}<span class="unit"> / 5</span></div>
+          <div class="stat-hint">用于筛选优先精读的论文</div>
+        </div>
+      </section>
+
+      <div class="toolbar">
+        <div class="field" style="flex:0 1 180px">
+          <label for="paperFilter">筛选状态</label>
+          <select id="paperFilter" data-filter="paper-status">
+            <option value="all" ${filter === "all" ? "selected" : ""}>全部</option>
+            ${PAPER_STATUS.map(s => `<option value="${s}" ${filter === s ? "selected" : ""}>${s}（${data.papers.filter(p => p.status === s).length}）</option>`).join("")}
+          </select>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th style="min-width:260px">论文</th><th>会议/期刊</th><th class="num">年份</th><th>重要度</th><th>状态</th><th class="col-tight"></th></tr></thead>
+            <tbody>
+              ${list.length ? list.map(p => `
+                <tr>
+                  <td>
+                    ${p.link ? `<a class="row-title" href="${escapeHtml(p.link)}" target="_blank" rel="noopener">${escapeHtml(p.title)}</a>` : `<span class="row-title">${escapeHtml(p.title)}</span>`}
+                    ${p.note ? `<div class="row-detail">${escapeHtml(p.note)}</div>` : ""}
+                  </td>
+                  <td class="muted">${escapeHtml(p.venue || "—")}</td>
+                  <td class="num">${num(p.year) || "—"}</td>
+                  <td>${"★".repeat(clamp(Math.round(num(p.rating)), 0, 5))}${"☆".repeat(5 - clamp(Math.round(num(p.rating)), 0, 5))}</td>
+                  <td>
+                    <select data-paper-status="${p.id}">
+                      ${PAPER_STATUS.map(s => `<option ${p.status === s ? "selected" : ""}>${s}</option>`).join("")}
+                    </select>
+                  </td>
+                  <td class="delete-cell">
+                    <button class="button icon small" data-edit="paper" data-id="${p.id}" title="编辑">✎</button>
+                    <button class="button icon small danger" data-del="paper" data-id="${p.id}" title="删除">×</button>
+                  </td>
+                </tr>`).join("") : `<tr><td colspan="6">${emptyRow("没有符合条件的论文。")}</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <section class="panel section-gap">
+        ${sectionHeader("读论文四步法", "对大一同学尤其有效，避免读了三小时却什么都没留下")}
+        <div class="grid two-col-even">
+          ${[
+            ["① 先看摘要、结论与图表", "用 5 分钟判断这篇论文是否值得读下去。大多数论文只需要知道它做了什么。"],
+            ["② 用一句话写清核心贡献", "「它解决了什么问题，用什么方法，比之前好在哪里」。写不出来说明还没读懂。"],
+            ["③ 动手复现或验证关键结论", "至少跑通一个开源实现，观察超参数对结果的影响，这一步真正长能力。"],
+            ["④ 记录局限与可改进点", "每篇论文都有局限，能指出局限就是科研思维的起点，也是讨论与选题的来源。"]
+          ].map(([t, d]) => `<article class="card"><div class="card-top"><h3>${t}</h3></div><p>${d}</p></article>`).join("")}
+        </div>
+      </section>`;
+  }
+  /* ============================================================
+     15. 页面：每周计划
+     ============================================================ */
+  function getWeekEntry(start) {
+    return data.weeks.find(w => w.start === start) || null;
+  }
+
+  function renderWeekly() {
+    const showDone = data.settings.showDone !== false;
+    let tasks = data.tasks.slice();
+    const q = (ui.taskSearch || "").trim().toLowerCase();
+    if (q) tasks = tasks.filter(t => (t.title + " " + t.category).toLowerCase().includes(q));
+    if (!showDone) tasks = tasks.filter(t => !t.done);
+
+    const groups = [
+      ...PRIORITIES.map(p => ({ p, label: p + "优先级", items: tasks.filter(t => t.priority === p) })),
+      { p: "其他", label: "其他", items: tasks.filter(t => !PRIORITIES.includes(t.priority)) }
+    ].filter(g => g.items.length);
+
+    const load = taskLoad();
+    const doneCount = data.tasks.filter(t => t.done).length;
+    const weekStart = weekStartISO(), weekEnd = weekEndISO();
+    const weekHours = round(studyHoursBetween(weekStart, weekEnd), 1);
+    const target = num(data.profile.weeklyHours, 15) || 15;
+    const entry = getWeekEntry(weekStart) || { start: weekStart, done: "", blocker: "", next: "" };
+    const history = [...data.weeks].sort((a, b) => (b.start || "").localeCompare(a.start || "")).slice(0, 6);
+
+    return `
+      <div class="page-head">
+        <div>
+          <h1>每周计划</h1>
+          <p class="subtitle">把大目标拆成本周能完成的具体行动。任务要可检查——「完成 10 道数组题」比「学算法」有用得多。</p>
+        </div>
+        <div class="btn-row"><button class="button primary" data-action="add-task">＋ 添加任务</button></div>
+      </div>
+
+      <section class="grid stats">
+        <div class="stat-card accent-green">
+          <div class="stat-label">本周任务完成</div>
+          <div class="stat-value">${doneCount}<span class="unit"> / ${data.tasks.length}</span></div>
+          <div>${progressBar(data.tasks.length ? Math.round(doneCount / data.tasks.length * 100) : 0)}</div>
+        </div>
+        <div class="stat-card accent-blue">
+          <div class="stat-label">未完成</div>
+          <div class="stat-value">${load.open}</div>
+          <div class="stat-hint">其中高优先级 ${load.high} 项</div>
+        </div>
+        <div class="stat-card accent-amber">
+          <div class="stat-label">预计剩余工时</div>
+          <div class="stat-value">${load.est}<span class="unit"> 小时</span></div>
+          <div class="stat-hint">周投入目标 ${target} 小时</div>
+        </div>
+        <div class="stat-card accent-violet">
+          <div class="stat-label">本周实际投入</div>
+          <div class="stat-value">${weekHours}<span class="unit"> 小时</span></div>
+          <div class="stat-hint">${target ? Math.round(weekHours / target * 100) : 0}% 目标完成度</div>
+        </div>
+      </section>
+
+      <section class="grid two-col">
+        <div class="panel">
+          ${sectionHeader("任务清单", `${tasks.length} 项显示中`, `
+            <div class="search" style="width:170px">
+              <span class="muted">⌕</span>
+              <input id="taskSearch" data-filter="task-search" value="${escapeHtml(ui.taskSearch || "")}" placeholder="搜索任务">
+            </div>
+            <button class="button small" data-action="toggle-done">${showDone ? "隐藏已完成" : "显示已完成"}</button>`)}
+          <div class="list">
+            ${groups.length ? groups.map(group => `
+              <div class="row-detail" style="margin-top:10px;font-weight:650">${escapeHtml(group.label)} · ${group.items.length}</div>
+              ${group.items.map(task => `
+                <div class="row row-cb2">
+                  <input type="checkbox" data-toggle="task" data-id="${task.id}" ${task.done ? "checked" : ""}>
+                  <span>
+                    <span class="row-title ${task.done ? "done" : ""}">${escapeHtml(task.title)}</span>
+                    <span class="row-detail">${escapeHtml(task.category || "学习")}${task.date ? " · 截止 " + fmtDate(task.date, true) : ""}${num(task.est) ? " · 预计 " + num(task.est) + "h" : ""}</span>
+                  </span>
+                  ${task.date && daysFromToday(task.date) < 0 && !task.done ? tag("已逾期", "red") : priorityTag(task.priority)}
+                  <span class="row-side">
+                    <button class="button icon small" data-edit="task" data-id="${task.id}" title="编辑">✎</button>
+                    <button class="button icon small danger" data-del="task" data-id="${task.id}" title="删除">×</button>
+                  </span>
+                </div>`).join("")}`).join("") : emptyRow("没有任务。点击「添加任务」开始规划本周。")}
+          </div>
+        </div>
+
+        <div class="panel">
+          ${sectionHeader("本周复盘", `${fmtDate(weekStart)} — ${fmtDate(weekEnd)}`, `<button class="button small" data-action="log-study">◔ 记时间</button>`)}
+          <form id="weekReviewForm" data-week-start="${weekStart}">
+            <div class="field">
+              <label for="wrDone">本周完成了什么（具体产出）</label>
+              <textarea id="wrDone" name="done" placeholder="例如：完成 25 道算法题；高数第 3 章习题全对；跑通第一个 Pandas 项目">${escapeHtml(entry.done || "")}</textarea>
+            </div>
+            <div class="field section-gap">
+              <label for="wrBlocker">遇到的困难 / 没做完的原因</label>
+              <textarea id="wrBlocker" name="blocker" style="min-height:56px" placeholder="例如：时间被社团占用；线代概念没跟上">${escapeHtml(entry.blocker || "")}</textarea>
+            </div>
+            <div class="field section-gap">
+              <label for="wrNext">下周调整</label>
+              <textarea id="wrNext" name="next" style="min-height:56px" placeholder="例如：把算法练习固定到早自习；先补线代第 2 章">${escapeHtml(entry.next || "")}</textarea>
+            </div>
+            <div class="form-actions">
+              <button class="button small" type="button" data-action="carry-over">未完成任务顺延提示</button>
+              <button class="button primary" type="submit">保存复盘</button>
+            </div>
+          </form>
+          ${history.length ? `<div class="sep"></div>
+            <div class="row-detail" style="margin-bottom:6px">历史复盘</div>
+            <div class="list scroll-y-sm">
+              ${history.map(w => `
+                <div class="row row-cb">
+                  <span class="nav-icon">▤</span>
+                  <span>
+                    <span class="row-title">${escapeHtml((w.start || "—") + " 起这一周")}</span>
+                    <span class="row-detail">${escapeHtml((w.done || "（未填写完成情况）").slice(0, 70))}</span>
+                  </span>
+                  <span class="row-side">
+                    <button class="button small" data-week-load="${escapeHtml(w.start || "")}">填入</button>
+                    <button class="button icon small danger" data-del="week" data-id="${w.id}">×</button>
+                  </span>
+                </div>`).join("")}
+            </div>` : ""}
+        </div>
+      </section>`;
+  }
+
+  /* ============================================================
+     16. 页面：时间与习惯
+     ============================================================ */
+  function renderTimeLog() {
+    const days = last7Days();
+    const weeks = last8Weeks();
+    const todayH = round(days[6].hours, 1);
+    const weekH = round(studyHoursBetween(weekStartISO(), weekEndISO()), 1);
+    const avgWeek = weeks.length ? round(weeks.reduce((s, w) => s + w.hours, 0) / weeks.length, 1) : 0;
+    const maxWeek = Math.max(1, ...weeks.map(w => w.hours));
+    const target = num(data.profile.weeklyHours, 15) || 15;
+    const entries = [...data.studyLog].sort((a, b) => (b.date || "").localeCompare(a.date || "")).slice(0, 25);
+
+    const weekDates = [];
+    for (let i = 0; i < 7; i++) {
+      const s = parseISO(weekStartISO());
+      const d = new Date(s.getFullYear(), s.getMonth(), s.getDate() + i);
+      weekDates.push({ iso: toISO(d), label: ["一", "二", "三", "四", "五", "六", "日"][i], isToday: toISO(d) === todayISO() });
+    }
+
+    return `
+      <div class="page-head">
+        <div>
+          <h1>时间与习惯</h1>
+          <p class="subtitle">记录真实投入，才能判断计划是否现实。习惯打卡关注「连续性」，不用追求完美。</p>
+        </div>
+        <div class="btn-row">
+          <button class="button" data-action="add-habit">＋ 习惯</button>
+          <button class="button primary" data-action="log-study">＋ 记录时间</button>
+        </div>
+      </div>
+
+      <section class="grid stats">
+        <div class="stat-card accent-green">
+          <div class="stat-label">今日投入</div>
+          <div class="stat-value">${todayH}<span class="unit"> 小时</span></div>
+          <div class="stat-hint">${data.studyLog.filter(e => e.date === todayISO()).length} 条记录</div>
+        </div>
+        <div class="stat-card accent-blue">
+          <div class="stat-label">本周投入</div>
+          <div class="stat-value">${weekH}<span class="unit"> / ${target} 小时</span></div>
+          <div>${progressBar(target ? Math.min(100, Math.round(weekH / target * 100)) : 0, "blue")}</div>
+        </div>
+        <div class="stat-card accent-amber">
+          <div class="stat-label">近 8 周平均</div>
+          <div class="stat-value">${avgWeek}<span class="unit"> 小时/周</span></div>
+          <div class="stat-hint">波动越小越可持续</div>
+        </div>
+        <div class="stat-card accent-violet">
+          <div class="stat-label">累计记录</div>
+          <div class="stat-value">${round(data.studyLog.reduce((s, e) => s + num(e.hours), 0), 1)}<span class="unit"> 小时</span></div>
+          <div class="stat-hint">共 ${data.studyLog.length} 条</div>
+        </div>
+      </section>
+
+      <section class="grid two-col-even">
+        <div class="panel">
+          ${sectionHeader("近 7 日投入", "每天的实际学习时长（小时）")}
+          ${barChart(days, { unit: "h" })}
+        </div>
+        <div class="panel">
+          ${sectionHeader("近 8 周趋势", `周目标 ${target} 小时（灰色为未达标周）`)}
+          ${barChart(weeks.map((w, i) => ({ label: `${i === 7 ? "本周" : "W" + (i + 1)}`, hours: w.hours })), { unit: "h", max: Math.max(maxWeek, target) })}
+          <div class="panel-subtitle" style="margin-top:8px">目标线 ${target} 小时 · 最高 ${maxWeek} 小时</div>
+        </div>
+      </section>
+
+      <section class="panel section-gap">
+        ${sectionHeader("习惯打卡", "点格子打卡，灰色表示未完成；连续天数会累积", `<button class="button small" data-action="add-habit">＋ 添加习惯</button>`)}
+        ${data.habits.length ? `
+          <div class="habit-grid">
+            <div class="habit-head" style="text-align:left">习惯</div>
+            ${weekDates.map(d => `<div class="habit-head ${d.isToday ? "today" : ""}">${d.label}</div>`).join("")}
+            <div class="habit-head">连续</div>
+            ${data.habits.map(h => `
+              <div class="habit-name" title="${escapeHtml(h.name)}">${escapeHtml(h.name)}</div>
+              ${weekDates.map(d => `
+                <button type="button" class="habit-cell ${h.log && h.log[d.iso] ? "on" : ""} ${d.isToday ? "today" : ""}"
+                  data-habit-toggle="${h.id}" data-date="${d.iso}" title="${escapeHtml(d.iso)} ${h.log && h.log[d.iso] ? "已完成" : "未完成"}">
+                  ${h.log && h.log[d.iso] ? "✓" : ""}
+                </button>`).join("")}
+              <div class="habit-streak">
+                ${habitStreak(h)} 天
+                <button class="button icon small danger" data-del="habit" data-id="${h.id}" title="删除习惯" style="margin-left:4px">×</button>
+              </div>`).join("")}
+          </div>` : emptyRow("还没有习惯，先添加一个想坚持的小习惯。")}
+      </section>
+
+      <section class="panel section-gap">
+        ${sectionHeader("时间账本", "最近 25 条记录", `<button class="button small danger" data-action="clear-studylog">清空记录</button>`)}
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>日期</th><th>科目 / 内容</th><th class="num">时长</th><th>备注</th><th class="col-tight"></th></tr></thead>
+            <tbody>
+              ${entries.length ? entries.map(e => `
+                <tr>
+                  <td class="nowrap">${fmtDate(e.date, true)}</td>
+                  <td>${escapeHtml(e.subject || "综合")}</td>
+                  <td class="num">${num(e.hours)} h</td>
+                  <td class="muted">${escapeHtml(e.note || "—")}</td>
+                  <td class="delete-cell"><button class="button icon small danger" data-del="studylog" data-id="${e.id}" title="删除">×</button></td>
+                </tr>`).join("") : `<tr><td colspan="5">${emptyRow("还没有时间记录。点右上角「记录时间」或用右下角番茄钟。")}</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      </section>`;
+  }
+
+  /* ============================================================
+     17. 页面：里程碑
+     ============================================================ */
+  function renderMilestones() {
+    const sorted = sortByDate(data.milestones, "date");
+    const done = data.milestones.filter(m => m.done).length;
+    const overdue = data.milestones.filter(m => !m.done && daysFromToday(m.date) !== null && daysFromToday(m.date) < 0);
+    const next = nextMilestone();
+    const byCat = {};
+    data.milestones.forEach(m => { byCat[m.category || "其他"] = (byCat[m.category || "其他"] || 0) + 1; });
+
+    return `
+      <div class="page-head">
+        <div>
+          <h1>里程碑</h1>
+          <p class="subtitle">把四年里的关键节点标出来，用倒计时提醒自己提前准备。很多机会错过一次就要等一年。</p>
+        </div>
+        <div class="btn-row"><button class="button primary" data-action="add-milestone">＋ 添加里程碑</button></div>
+      </div>
+
+      <section class="grid stats">
+        <div class="stat-card accent-green">
+          <div class="stat-label">已完成</div>
+          <div class="stat-value">${done}<span class="unit"> / ${data.milestones.length}</span></div>
+          <div class="stat-hint">${Object.entries(byCat).map(([k, v]) => `${k} ${v}`).join(" · ") || "—"}</div>
+        </div>
+        <div class="stat-card accent-blue">
+          <div class="stat-label">下一个节点</div>
+          <div class="stat-value" style="font-size:17px">${next ? escapeHtml(next.title) : "—"}</div>
+          <div class="stat-hint">${next ? fmtDate(next.date, true) + " · " + daysLabel(next.days) : "暂无待办节点"}</div>
+        </div>
+        <div class="stat-card accent-amber">
+          <div class="stat-label">临近（30 天内）</div>
+          <div class="stat-value">${data.milestones.filter(m => { const d = daysFromToday(m.date); return !m.done && d !== null && d >= 0 && d <= 30; }).length}</div>
+          <div class="stat-hint">需要立即准备</div>
+        </div>
+        <div class="stat-card accent-violet">
+          <div class="stat-label">已过期未完成</div>
+          <div class="stat-value">${overdue.length}</div>
+          <div class="stat-hint">${overdue.length ? "考虑调整日期或标记完成" : "状态良好"}</div>
+        </div>
+      </section>
+
+      <div class="panel">
+        ${sectionHeader("时间线", "按日期排序，绿色为已完成")}
+        <div class="timeline">
+          ${sorted.length ? sorted.map(m => {
+            const d = daysFromToday(m.date);
+            const cls = m.done ? "done" : (d === null ? "" : d < 0 ? "overdue" : d <= 30 ? "soon" : "");
+            return `
+              <div class="tl-item ${cls}">
+                <span class="tl-dot"></span>
+                <div class="tl-head">
+                  <input type="checkbox" data-milestone-done="${m.id}" ${m.done ? "checked" : ""} aria-label="标记完成">
+                  <span class="row-title ${m.done ? "done" : ""}">${escapeHtml(m.title)}</span>
+                  ${tag(m.category || "其他", "teal")}
+                  ${m.done ? tag("已完成", "green") : countdownTag(d)}
+                  <span class="row-side" style="margin-left:auto">
+                    <span class="tl-date">${fmtDate(m.date, true)}</span>
+                    <button class="button icon small" data-edit="milestone" data-id="${m.id}" title="编辑">✎</button>
+                    <button class="button icon small danger" data-del="milestone" data-id="${m.id}" title="删除">×</button>
+                  </span>
+                </div>
+                ${m.note ? `<div class="row-detail" style="margin-left:23px">${escapeHtml(m.note)}</div>` : ""}
+              </div>`;
+          }).join("") : emptyRow("还没有里程碑。")}
+        </div>
+      </div>`;
+  }
+
+  /* ============================================================
+     18. 页面：职业方向
+     ============================================================ */
+  function renderDirections() {
+    const sel = data.selectedDirection;
+    const selDir = data.directions.find(d => d.title === sel);
+    const skillNames = data.skills.map(s => s.name);
+
+    return `
+      <div class="page-head">
+        <div>
+          <h1>职业方向</h1>
+          <p class="subtitle">大一不必定方向，但可以带着问题去体验：喜欢推公式、写系统，还是做产品？每个方向都列了岗位、能力与准备路径。</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        ${sectionHeader("当前重点探索", selDir ? "把精力聚焦在一个方向上，其他保持了解即可" : "还没有选定重点方向")}
+        ${selDir ? `
+          <div class="grid two-col-even">
+            <div>
+              <h3>${escapeHtml(selDir.title)}</h3>
+              <p class="panel-subtitle" style="margin-top:6px">${escapeHtml(selDir.description)}</p>
+              <div class="tag-row" style="margin-top:8px">${(selDir.skills || []).map(s => tag(s, "teal")).join("")}</div>
+            </div>
+            <div>
+              <div class="row-detail">典型岗位</div>
+              <div class="row-title" style="margin-bottom:8px">${escapeHtml(selDir.jobs || "—")}</div>
+              <div class="row-detail">准备路径</div>
+              <div class="row-title">${escapeHtml(selDir.prep || "—")}</div>
+            </div>
+          </div>
+          <div class="sep"></div>
+          <div class="row-detail">该方向需要的能力里，你还可以补强：</div>
+          <div class="tag-row" style="margin-top:6px">
+            ${(selDir.skills || []).map(s => {
+              const hit = data.skills.find(k => k.name.includes(s) || s.includes(k.name));
+              return hit ? tag(`${s}（当前 ${hit.score}/5）`, num(hit.score) < 3 ? "amber" : "green") : tag(s, "");
+            }).join("") || tag("—")}
+          </div>
+          <div class="form-actions"><button class="button small" data-clear-direction>取消重点探索</button></div>`
+        : emptyRow("从下面的方向里选一个作为当前重点探索对象。")}
+      </div>
+
+      <div class="grid two-col-even section-gap">
+        ${data.directions.map(d => `
+          <article class="card ${sel === d.title ? "selected" : ""}">
+            <div class="card-top">
+              <h3>${escapeHtml(d.title)}</h3>
+              ${sel === d.title ? tag("重点探索", "green") : ""}
+            </div>
+            <p>${escapeHtml(d.description)}</p>
+            <div class="tag-row">${(d.skills || []).map(s => tag(s, "teal")).join("")}</div>
+            ${d.jobs ? `<div class="row-detail" style="margin-top:9px">💼 ${escapeHtml(d.jobs)}</div>` : ""}
+            ${d.prep ? `<div class="row-detail" style="margin-top:4px">🧭 ${escapeHtml(d.prep)}</div>` : ""}
+            <div class="card-foot" style="margin-top:11px">
+              <button class="button small" data-pick-direction="${escapeHtml(d.title)}">${sel === d.title ? "取消重点" : "设为重点探索"}</button>
+              <span class="row-side">
+                <button class="button icon small" data-edit="direction" data-id="${d.id}" title="编辑">✎</button>
+                <button class="button icon small danger" data-del="direction" data-id="${d.id}" title="删除">×</button>
+              </span>
+            </div>
+          </article>`).join("")}
+      </div>
+
+      <section class="panel section-gap">
+        ${sectionHeader("方向探索方法", "用低成本的方式验证兴趣，而不是靠想象")}
+        <div class="grid three-col">
+          ${[
+            ["① 看真实岗位要求", "在招聘网站搜「算法工程师 / 数据分析」，把反复出现的要求记下来，对照自己的能力表。"],
+            ["② 做一个小项目", "每个方向花 1–2 周做最小可运行的项目，感受每天做什么、难点在哪里。"],
+            ["③ 找学长学姐聊", "问清楚日常工作量、成长曲线和卡点，比看介绍更真实。"],
+            ["④ 进实验室体验", "大二起可以联系导师，在真实课题里判断自己是否喜欢科研。"],
+            ["⑤ 记录体验结论", "每次体验后写三句话：喜欢什么、不喜欢什么、下一步验证什么。"],
+            ["⑥ 允许改变方向", "大一的方向只是假设，用一学期验证一次，随时调整不算浪费。"]
+          ].map(([t, d]) => `<article class="card"><div class="card-top"><h3>${t}</h3></div><p>${d}</p></article>`).join("")}
+        </div>
+      </section>`;
+  }
+
+  /* ============================================================
+     19. 页面：英语与标化
+     ============================================================ */
+  function renderEnglish() {
+    const e = data.english;
+    const items = [
+      { key: "cet4", label: "CET-4 四级", hint: "大一下可考，建议 550+" },
+      { key: "cet6", label: "CET-6 六级", hint: "大二考，保研常见要求 425+" },
+      { key: "ielts", label: "雅思 IELTS", hint: "出国或交换需要，常见要求 6.5" },
+      { key: "toefl", label: "托福 TOEFL", hint: "北美方向，常见要求 90+" }
+    ];
+    const planDone = e.plan.filter(p => p.done).length;
+
+    return `
+      <div class="page-head">
+        <div>
+          <h1>英语与标化</h1>
+          <p class="subtitle">英语是 AI 专业的硬门槛：读论文、看文档、写论文都靠它。每天 30 分钟，坚持一年就是巨大优势。</p>
+        </div>
+      </div>
+
+      <section class="grid stats">
+        <div class="stat-card accent-green">
+          <div class="stat-label">已完成考试</div>
+          <div class="stat-value">${items.filter(i => e[i.key] && e[i.key].done).length}<span class="unit"> / 4</span></div>
+          <div class="stat-hint">按自己的升学路线选择目标</div>
+        </div>
+        <div class="stat-card accent-blue">
+          <div class="stat-label">备考计划完成</div>
+          <div class="stat-value">${planDone}<span class="unit"> / ${e.plan.length}</span></div>
+          <div>${progressBar(e.plan.length ? Math.round(planDone / e.plan.length * 100) : 0, "blue")}</div>
+        </div>
+        <div class="stat-card accent-amber">
+          <div class="stat-label">CET-4 目标 / 实考</div>
+          <div class="stat-value" style="font-size:19px">${escapeHtml(e.cet4.target || "—")} <span class="unit">/ ${escapeHtml(e.cet4.score || "未考")}</span></div>
+          <div class="stat-hint">${e.cet4.date ? "考试日期 " + fmtDate(e.cet4.date) : "尚未安排考试"}</div>
+        </div>
+        <div class="stat-card accent-violet">
+          <div class="stat-label">阅读积累提示</div>
+          <div class="stat-value" style="font-size:15px">每周 1 篇英文技术文</div>
+          <div class="stat-hint">一年 ≈ 50 篇，读论文不再吃力</div>
+        </div>
+      </section>
+
+      <section class="grid two-col-even">
+        ${items.map(item => {
+          const v = e[item.key] || {};
+          return `
+            <div class="panel">
+              ${sectionHeader(item.label, item.hint)}
+              <div class="form-grid">
+                <div class="field">
+                  <label for="${item.key}_target">目标分数</label>
+                  <input id="${item.key}_target" data-english="${item.key}" data-field="target" value="${escapeHtml(v.target || "")}" placeholder="如 550">
+                </div>
+                <div class="field">
+                  <label for="${item.key}_score">实际成绩</label>
+                  <input id="${item.key}_score" data-english="${item.key}" data-field="score" value="${escapeHtml(v.score || "")}" placeholder="未考可留空">
+                </div>
+                <div class="field">
+                  <label for="${item.key}_date">考试日期</label>
+                  <input id="${item.key}_date" type="date" data-english="${item.key}" data-field="date" value="${escapeHtml(v.date || "")}">
+                </div>
+                <div class="field">
+                  <label>&nbsp;</label>
+                  <label class="row row-cb" style="padding:0">
+                    <input type="checkbox" data-english="${item.key}" data-field="done" ${v.done ? "checked" : ""}>
+                    <span class="row-title">已达成目标</span>
+                  </label>
+                </div>
+              </div>
+            </div>`;
+        }).join("")}
+      </section>
+
+      <section class="panel section-gap">
+        ${sectionHeader("日常备考计划", "勾选表示已养成习惯", `<button class="button small" data-action="add-english-plan">＋ 自定义计划</button>`)}
+        <div class="grid two-col-even">
+          ${e.plan.map(p => `
+            <div class="row row-cb2">
+              <input type="checkbox" data-english-plan="${p.id}" ${p.done ? "checked" : ""}>
+              <span class="row-title ${p.done ? "done" : ""}">${escapeHtml(p.text)}</span>
+              <span></span>
+              <button class="button icon small danger" data-del="english-plan" data-id="${p.id}" title="删除">×</button>
+            </div>`).join("") || emptyRow("还没有备考计划。")}
+        </div>
+      </section>
+
+      <section class="panel section-gap">
+        ${sectionHeader("AI 专业英语的三个重点", "把英语和专业课结合，效率最高")}
+        <div class="grid three-col">
+          ${[
+            ["术语与表达", "先掌握机器学习、深度学习高频英文术语，读论文和文档会顺畅很多。"],
+            ["论文阅读", "从摘要、图表、结论读起，逐步过渡到方法与实验部分。"],
+            ["写作与口语", "尝试用英文写实验记录，参加英文组会汇报，为将来投稿与面试做准备。"]
+          ].map(([t, d]) => `<article class="card"><div class="card-top"><h3>${t}</h3></div><p>${d}</p></article>`).join("")}
+        </div>
+      </section>`;
+  }
+
+  /* ============================================================
+     20. 页面：知识笔记
+     ============================================================ */
+  function renderNotes() {
+    const q = (ui.noteSearch || "").trim().toLowerCase();
+    const list = data.notes.filter(n => {
+      if (!q) return true;
+      return (n.title + " " + n.tags + " " + n.content).toLowerCase().includes(q);
+    });
+    const allTags = [...new Set(data.notes.flatMap(n => String(n.tags || "").split(/[,，\s]+/).filter(Boolean)))];
+
+    return `
+      <div class="page-head">
+        <div>
+          <h1>知识笔记</h1>
+          <p class="subtitle">记录踩过的坑、看懂的概念、论文要点。写给未来的自己看——三个月后你还看得懂，才算记好了。</p>
+        </div>
+        <div class="btn-row"><button class="button primary" data-action="add-note">＋ 新建笔记</button></div>
+      </div>
+
+      <div class="toolbar">
+        <div class="search" style="flex:1 1 260px;max-width:340px">
+          <span class="muted">⌕</span>
+          <input id="noteSearch" data-filter="note-search" value="${escapeHtml(ui.noteSearch || "")}" placeholder="搜索标题、标签或内容">
+        </div>
+        <span class="tag-row">${allTags.slice(0, 12).map(t => `<button class="tag" data-note-tag="${escapeHtml(t)}" style="border:0">${escapeHtml(t)}</button>`).join("")}</span>
+      </div>
+
+      ${list.length ? `<div class="grid two-col-even">
+        ${list.map(n => `
+          <article class="card">
+            <div class="card-top">
+              <div>
+                <h3>${escapeHtml(n.title)}</h3>
+                <div class="row-detail">更新于 ${escapeHtml(n.updatedAt || "—")}</div>
+              </div>
+              <span class="row-side">
+                <button class="button icon small" data-edit="note" data-id="${n.id}" title="编辑">✎</button>
+                <button class="button icon small danger" data-del="note" data-id="${n.id}" title="删除">×</button>
+              </span>
+            </div>
+            <div class="row-detail note-text" style="margin:8px 0">${escapeHtml((n.content || "").slice(0, 220))}${(n.content || "").length > 220 ? "…" : ""}</div>
+            <div class="tag-row">${String(n.tags || "").split(/[,，\s]+/).filter(Boolean).map(t => tag(t, "blue")).join("")}</div>
+            ${(n.content || "").length > 220 ? `<div class="card-foot"><button class="button small" data-note-open="${n.id}">展开全文</button></div>` : ""}
+          </article>`).join("")}
+      </div>` : `<div class="panel">${emptyRow(q ? "没有匹配的笔记。" : "还没有笔记，点击「新建笔记」开始记录。")}</div>`}`;
+  }
+
+  /* ============================================================
+     21. 页面：数据与设置
+     ============================================================ */
+  function renderSettings() {
+    const p = data.profile;
+    const bytes = new Blob([JSON.stringify(data)]).size;
+    const kb = round(bytes / 1024, 1);
+
+    return `
+      <div class="page-head">
+        <div>
+          <h1>数据与设置</h1>
+          <p class="subtitle">所有数据保存在本机浏览器（localStorage），不上传任何服务器。换电脑或清缓存前请先导出备份。</p>
+        </div>
+      </div>
+
+      <section class="grid two-col">
+        <div class="panel">
+          ${sectionHeader("个人档案", "用于计算学期、生成路线与统计")}
+          <form id="profileForm" class="form-grid">
+            <div class="field"><label for="pName">姓名（可选）</label><input id="pName" name="name" value="${escapeHtml(p.name)}" placeholder="用于总览问候"></div>
+            <div class="field"><label for="pSchool">学校</label><input id="pSchool" name="school" value="${escapeHtml(p.school)}"></div>
+            <div class="field"><label for="pCollege">学院</label><input id="pCollege" name="college" value="${escapeHtml(p.college)}"></div>
+            <div class="field"><label for="pMajor">专业</label><input id="pMajor" name="major" value="${escapeHtml(p.major)}"></div>
+            <div class="field"><label for="pGrade">年级</label>
+              <select id="pGrade" name="grade">${["大一", "大二", "大三", "大四", "研究生"].map(g => `<option ${p.grade === g ? "selected" : ""}>${g}</option>`).join("")}</select>
+            </div>
+            <div class="field"><label for="pCampus">校区</label><input id="pCampus" name="campus" value="${escapeHtml(p.campus)}"></div>
+            <div class="field"><label for="pEnroll">入学年份</label><input id="pEnroll" name="enrollYear" type="number" min="2000" max="2100" value="${num(p.enrollYear, 2026)}" class="hint"></div>
+            <div class="field"><label for="pWeekly">每周学习目标（小时）</label><input id="pWeekly" name="weeklyHours" type="number" min="1" max="80" value="${num(p.weeklyHours, 15)}"></div>
+            <div class="field"><label for="pGpa">目标绩点（4.0 制）</label><input id="pGpa" name="gpaGoal" type="number" min="0" max="4" step="0.05" value="${num(p.gpaGoal, 3.8)}"></div>
+            <div class="field"><label for="pAdvisor">导师 / 班主任（可选）</label><input id="pAdvisor" name="advisor" value="${escapeHtml(p.advisor || "")}"></div>
+            <div class="field span-2"><label for="pTarget">当前阶段目标</label><input id="pTarget" name="target" value="${escapeHtml(p.target)}"></div>
+            <div class="form-actions span-2"><button class="button primary" type="submit">保存档案</button></div>
+          </form>
+        </div>
+
+        <div class="panel">
+          ${sectionHeader("外观与数据", "本地存储占用约 " + kb + " KB")}
+          <div class="field">
+            <label>主题</label>
+            <div class="btn-row">
+              <button class="button ${data.settings.theme !== "dark" ? "primary" : ""}" data-action="theme-light">☀ 浅色</button>
+              <button class="button ${data.settings.theme === "dark" ? "primary" : ""}" data-action="theme-dark">☾ 深色</button>
+            </div>
+          </div>
+          <div class="sep"></div>
+          <div class="field">
+            <label>数据管理</label>
+            <div class="btn-row">
+              <button class="button" data-action="export">⇩ 导出 JSON 备份</button>
+              <button class="button" data-action="import">⇧ 从 JSON 导入</button>
+              <button class="button" data-action="print">🖨 打印 / 导出 PDF</button>
+            </div>
+            <span class="hint">导出文件包含全部模块数据，建议每月备份一次。</span>
+          </div>
+          <div class="sep"></div>
+          <div class="field">
+            <label>数据统计</label>
+            <div class="table-wrap">
+              <table>
+                <tbody>
+                  <tr><td>课程</td><td class="num">${data.courses.length}</td></tr>
+                  <tr><td>学习路线任务</td><td class="num">${data.roadmap.length}</td></tr>
+                  <tr><td>能力维度</td><td class="num">${data.skills.length}</td></tr>
+                  <tr><td>项目</td><td class="num">${data.projects.length}</td></tr>
+                  <tr><td>任务</td><td class="num">${data.tasks.length}</td></tr>
+                  <tr><td>时间记录</td><td class="num">${data.studyLog.length}</td></tr>
+                  <tr><td>习惯</td><td class="num">${data.habits.length}</td></tr>
+                  <tr><td>竞赛 / 科研</td><td class="num">${data.competitions.length}</td></tr>
+                  <tr><td>论文</td><td class="num">${data.papers.length}</td></tr>
+                  <tr><td>里程碑</td><td class="num">${data.milestones.length}</td></tr>
+                  <tr><td>笔记</td><td class="num">${data.notes.length}</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="sep"></div>
+          <div class="field">
+            <label>危险操作</label>
+            <div class="btn-row">
+              <button class="button" data-action="reset-empty">清空为空白模板</button>
+              <button class="button danger" data-action="reset-default">恢复默认示例数据</button>
+            </div>
+            <span class="hint">两个操作都会覆盖当前数据，请先导出备份。</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel section-gap">
+        ${sectionHeader("快捷键", "提高日常使用效率")}
+        <div class="grid three-col">
+          <div class="row row-cb"><span class="kbd">Alt</span><span class="row-title">+ <span class="kbd">1…9</span> 快速切换前 9 个模块</span></div>
+          <div class="row row-cb"><span class="kbd">Esc</span><span class="row-title">关闭弹窗 / 侧边栏</span></div>
+          <div class="row row-cb"><span class="kbd">＋ 新建</span><span class="row-title">右上角快速添加任意内容</span></div>
+        </div>
+      </section>`;
+  }
+  /* ============================================================
+     22. 交互：事件委托
+     ============================================================ */
+  function findById(list, id) { return (list || []).find(x => x.id === id); }
+  const DEL_MAP = {
+    course: "courses", roadmap: "roadmap", skill: "skills", project: "projects",
+    task: "tasks", competition: "competitions", paper: "papers", milestone: "milestones",
+    note: "notes", habit: "habits", studylog: "studyLog", direction: "directions", week: "weeks"
+  };
+  const DEL_LABEL = {
+    course: "课程", roadmap: "学习任务", skill: "能力项", project: "项目", task: "任务",
+    competition: "竞赛记录", paper: "论文", milestone: "里程碑", note: "笔记",
+    habit: "习惯（打卡记录会一并删除）", studylog: "时间记录", direction: "方向", week: "复盘记录"
+  };
+
+  function rerenderKeepFocus(el) {
+    const id = el && el.id;
+    const pos = el && el.selectionStart;
+    render();
+    if (!id) return;
+    const next = document.getElementById(id);
+    if (next) {
+      next.focus();
+      if (pos != null && next.setSelectionRange) {
+        try { next.setSelectionRange(pos, pos); } catch (error) { /* 忽略 */ }
+      }
+    }
+  }
+
+  function onContentClick(event) {
+    const target = event.target;
+    if (!target || typeof target.closest !== "function") return;
+    const el = target.closest(
+      "[data-go],[data-action],[data-del],[data-edit],[data-add-roadmap-term],[data-habit-toggle]," +
+      "[data-pick-direction],[data-clear-direction],[data-week-load],[data-note-open],[data-note-tag]"
+    );
+    if (!el) return;
+
+    if (el.dataset.go) { navigate(el.dataset.go); return; }
+
+    if (el.dataset.noteTag) {
+      ui.noteSearch = el.dataset.noteTag;
+      render();
+      return;
+    }
+
+    if (el.dataset.habitToggle) {
+      const habit = findById(data.habits, el.dataset.habitToggle);
+      if (!habit) return;
+      habit.log = habit.log || {};
+      const date = el.dataset.date;
+      if (habit.log[date]) delete habit.log[date];
+      else habit.log[date] = true;
+      save();
+      return;
+    }
+
+    if (el.dataset.pickDirection) {
+      const title = el.dataset.pickDirection;
+      data.selectedDirection = data.selectedDirection === title ? "" : title;
+      data.profile.target = data.selectedDirection
+        ? `深入了解「${data.selectedDirection}」并完成一个相关小项目`
+        : data.profile.target;
+      save("已更新重点探索方向");
+      return;
+    }
+
+    if (el.hasAttribute("data-clear-direction")) {
+      data.selectedDirection = "";
+      save("已取消重点探索方向");
+      return;
+    }
+
+    if (el.dataset.addRoadmapTerm) { addRoadmapDialog(null, el.dataset.addRoadmapTerm); return; }
+
+    if (el.dataset.noteOpen) {
+      const note = findById(data.notes, el.dataset.noteOpen);
+      if (!note) return;
+      openModal({
+        title: note.title,
+        subtitle: `标签：${note.tags || "无"} · 更新于 ${note.updatedAt || "—"}`,
+        noFocus: true,
+        html: `<div class="note-text">${escapeHtml(note.content || "")}</div>
+          <div class="form-actions">
+            <button type="button" class="button" data-modal-close>关闭</button>
+            <button type="button" class="button primary" data-note-edit="${note.id}">编辑</button>
+          </div>`,
+        onRender(modal) {
+          const btn = modal.querySelector("[data-note-edit]");
+          if (btn) btn.addEventListener("click", () => { closeModal(); setTimeout(() => noteDialog(note), 80); });
+        }
+      });
+      return;
+    }
+
+    if (el.dataset.weekLoad) {
+      const entry = getWeekEntry(el.dataset.weekLoad);
+      if (!entry) return;
+      openModal({
+        title: `${entry.start} 起这一周的复盘`,
+        noFocus: true,
+        html: `<div class="field"><label>完成了什么</label><div class="note-text">${escapeHtml(entry.done || "—")}</div></div>
+          <div class="sep"></div>
+          <div class="field"><label>困难 / 原因</label><div class="note-text">${escapeHtml(entry.blocker || "—")}</div></div>
+          <div class="sep"></div>
+          <div class="field"><label>下周调整</label><div class="note-text">${escapeHtml(entry.next || "—")}</div></div>
+          <div class="form-actions">
+            <button type="button" class="button danger" data-week-del="${entry.id}">删除这条复盘</button>
+            <button type="button" class="button primary" data-modal-close>关闭</button>
+          </div>`,
+        onRender(modal) {
+          const btn = modal.querySelector("[data-week-del]");
+          if (btn) btn.addEventListener("click", () => {
+            data.weeks = data.weeks.filter(w => w.id !== entry.id);
+            closeModal();
+            save("已删除复盘记录");
+          });
+        }
+      });
+      return;
+    }
+
+    if (el.dataset.del) {
+      const kind = el.dataset.del;
+      const id = el.dataset.id;
+      if (kind === "english-plan") {
+        data.english.plan = data.english.plan.filter(p => p.id !== id);
+        save("已删除计划项");
+        return;
+      }
+      const key = DEL_MAP[kind];
+      if (!key) return;
+      if (!confirm(`确定删除这条${DEL_LABEL[kind] || "记录"}吗？此操作不可撤销。`)) return;
+      data[key] = data[key].filter(item => item.id !== id);
+      if (kind === "direction" && data.selectedDirection && !data.directions.some(d => d.title === data.selectedDirection)) {
+        data.selectedDirection = "";
+      }
+      save("已删除");
+      return;
+    }
+
+    if (el.dataset.edit) {
+      const kind = el.dataset.edit;
+      const id = el.dataset.id;
+      const map = { course: data.courses, roadmap: data.roadmap, skill: data.skills, project: data.projects, task: data.tasks, competition: data.competitions, paper: data.papers, milestone: data.milestones, note: data.notes, direction: data.directions };
+      const item = findById(map[kind], id);
+      if (!item) return;
+      if (kind === "course") addCourseDialog(item);
+      else if (kind === "roadmap") addRoadmapDialog(item);
+      else if (kind === "skill") addSkillDialog(item);
+      else if (kind === "project") addProjectDialog(item);
+      else if (kind === "task") addTaskDialog(item);
+      else if (kind === "competition") addCompetitionDialog(item);
+      else if (kind === "paper") addPaperDialog(item);
+      else if (kind === "milestone") addMilestoneDialog(item);
+      else if (kind === "note") noteDialog(item);
+      else if (kind === "direction") directionDialog(item);
+      return;
+    }
+
+    if (el.dataset.action) {
+      const action = el.dataset.action;
+      if (action === "add-course") addCourseDialog();
+      else if (action === "add-roadmap") addRoadmapDialog();
+      else if (action === "add-skill") addSkillDialog();
+      else if (action === "add-project") addProjectDialog();
+      else if (action === "add-task") addTaskDialog();
+      else if (action === "add-competition") addCompetitionDialog();
+      else if (action === "add-paper") addPaperDialog();
+      else if (action === "add-milestone") addMilestoneDialog();
+      else if (action === "add-note") noteDialog();
+      else if (action === "add-habit") addHabitDialog();
+      else if (action === "log-study") addStudyLogDialog();
+      else if (action === "add-english-plan") addEnglishPlanDialog();
+      else if (action === "toggle-done") { data.settings.showDone = !(data.settings.showDone !== false); save(); }
+      else if (action === "theme-light") { data.settings.theme = "light"; applyTheme(); save("已切换到浅色主题"); }
+      else if (action === "theme-dark") { data.settings.theme = "dark"; applyTheme(); save("已切换到深色主题"); }
+      else if (action === "export") exportData();
+      else if (action === "import") document.getElementById("importFile").click();
+      else if (action === "print") window.print();
+      else if (action === "clear-studylog") {
+        if (!confirm("确定清空全部时间记录吗？")) return;
+        data.studyLog = [];
+        save("时间记录已清空");
+      } else if (action === "carry-over") {
+        const open = data.tasks.filter(t => !t.done);
+        const overdue = open.filter(t => t.date && daysFromToday(t.date) < 0);
+        toast(`未完成 ${open.length} 项，其中逾期 ${overdue.length} 项，建议下周优先安排`);
+      } else if (action === "reset-empty") {
+        if (!confirm("清空所有内容，仅保留个人档案与设置？请先导出备份。")) return;
+        const profile = structuredClone(data.profile);
+        const settings = structuredClone(data.settings);
+        data = blankData();
+        data.profile = profile;
+        data.settings = settings;
+        save("已清空为空白模板");
+      } else if (action === "reset-default") {
+        if (!confirm("恢复为默认示例数据？当前所有内容将被覆盖，请先导出备份。")) return;
+        data = defaultData();
+        applyTheme();
+        save("已恢复默认示例数据");
+      }
+    }
+  }
+
+  function onContentChange(event) {
+    const el = event.target;
+    const d = el.dataset;
+
+    if (d.toggle === "task" || d.toggle === "roadmap") {
+      const list = d.toggle === "task" ? data.tasks : data.roadmap;
+      const item = findById(list, d.id);
+      if (!item) return;
+      item.done = el.checked;
+      save(item.done ? "已完成 ✓" : "已取消完成");
+      return;
+    }
+
+    if (d.courseScore !== undefined) {
+      const course = findById(data.courses, d.courseScore);
+      if (!course) return;
+      const v = el.value.trim();
+      course.score = v === "" ? null : clamp(num(v), 0, 100);
+      if (course.score !== null) course.status = "已完成";
+      save("成绩已更新");
+      return;
+    }
+    if (d.courseStatus !== undefined) {
+      const course = findById(data.courses, d.courseStatus);
+      if (!course) return;
+      course.status = el.value;
+      save("状态已更新");
+      return;
+    }
+    if (d.projectStatus !== undefined) {
+      const item = findById(data.projects, d.projectStatus);
+      if (!item) return;
+      item.status = el.value;
+      save("项目状态已更新");
+      return;
+    }
+    if (d.compStatus !== undefined) {
+      const item = findById(data.competitions, d.compStatus);
+      if (!item) return;
+      item.status = el.value;
+      save("状态已更新");
+      return;
+    }
+    if (d.paperStatus !== undefined) {
+      const item = findById(data.papers, d.paperStatus);
+      if (!item) return;
+      item.status = el.value;
+      save("阅读状态已更新");
+      return;
+    }
+    if (d.milestoneDone !== undefined) {
+      const item = findById(data.milestones, d.milestoneDone);
+      if (!item) return;
+      item.done = el.checked;
+      save(item.done ? "里程碑已完成 🎉" : "已取消完成");
+      return;
+    }
+    if (d.english !== undefined) {
+      const block = data.english[d.english];
+      if (!block) return;
+      const field = d.field;
+      if (field === "done") block.done = el.checked;
+      else block[field] = el.value.trim();
+      save("已保存");
+      return;
+    }
+    if (d.englishPlan !== undefined) {
+      const item = data.english.plan.find(p => p.id === d.englishPlan);
+      if (!item) return;
+      item.done = el.checked;
+      save();
+      return;
+    }
+    if (d.filter) {
+      const f = d.filter;
+      if (f === "course-term") { ui.termFilter = el.value; render(); }
+      else if (f === "roadmap-term") { ui.roadmapTerm = el.value; render(); }
+      else if (f === "project-status") { ui.projectFilter = el.value; render(); }
+      else if (f === "paper-status") { ui.paperFilter = el.value; render(); }
+    }
+  }
+
+  function onContentInput(event) {
+    const el = event.target;
+    const d = el.dataset;
+
+    if (d.skillSlider) {
+      const skill = findById(data.skills, d.skillSlider);
+      if (!skill) return;
+      skill.score = clamp(num(el.value), 0, 5);
+      const label = document.getElementById("score-" + skill.id);
+      if (label) label.innerHTML = `${skill.score}<span class="muted"> /${clamp(skill.target, 0, 5)}</span>`;
+      const box = document.getElementById("radarBox");
+      if (box) box.innerHTML = radarChart(data.skills);
+      persist();
+      return;
+    }
+
+    if (d.filter === "course-search") { ui.courseSearch = el.value; rerenderKeepFocus(el); return; }
+    if (d.filter === "note-search") { ui.noteSearch = el.value; rerenderKeepFocus(el); return; }
+    if (d.filter === "task-search") { ui.taskSearch = el.value; rerenderKeepFocus(el); return; }
+  }
+
+  function onContentSubmit(event) {
+    const form = event.target;
+
+    if (form.id === "weekReviewForm") {
+      event.preventDefault();
+      const start = form.dataset.weekStart;
+      const fd = new FormData(form);
+      let entry = getWeekEntry(start);
+      if (!entry) { entry = { id: uid(), start, end: weekEndISO() }; data.weeks.push(entry); }
+      entry.done = String(fd.get("done") || "").trim();
+      entry.blocker = String(fd.get("blocker") || "").trim();
+      entry.next = String(fd.get("next") || "").trim();
+      entry.hours = round(studyHoursBetween(start, weekEndISO()), 1);
+      entry.updatedAt = todayISO();
+      save("本周复盘已保存");
+      return;
+    }
+
+    if (form.id === "profileForm") {
+      event.preventDefault();
+      const fd = new FormData(form);
+      const p = data.profile;
+      p.name = String(fd.get("name") || "").trim();
+      p.school = String(fd.get("school") || "").trim() || "四川大学";
+      p.college = String(fd.get("college") || "").trim();
+      p.major = String(fd.get("major") || "").trim() || "人工智能";
+      p.grade = String(fd.get("grade") || "大一");
+      p.campus = String(fd.get("campus") || "").trim();
+      p.enrollYear = clamp(num(fd.get("enrollYear"), 2026), 2000, 2100);
+      p.weeklyHours = clamp(num(fd.get("weeklyHours"), 15), 1, 80);
+      p.gpaGoal = clamp(num(fd.get("gpaGoal"), 3.8), 0, 4);
+      p.advisor = String(fd.get("advisor") || "").trim();
+      p.target = String(fd.get("target") || "").trim();
+      save("个人档案已保存");
+      return;
+    }
+  }
+
+  function directionDialog(item) {
+    const editing = !!item;
+    openModal({
+      title: editing ? "编辑方向" : "添加方向",
+      fields: [
+        { name: "title", label: "方向名称", value: item ? item.title : "", required: true },
+        { name: "description", label: "方向说明", type: "textarea", span: 2, value: item ? item.description : "" },
+        { name: "skills", label: "需要的能力（逗号分隔）", span: 2, value: item && Array.isArray(item.skills) ? item.skills.join(", ") : "" },
+        { name: "jobs", label: "典型岗位", span: 2, value: item ? item.jobs : "", placeholder: "如：算法工程师、数据分析师" },
+        { name: "prep", label: "准备路径", type: "textarea", span: 2, value: item ? item.prep : "" }
+      ],
+      onSubmit(v) {
+        if (!v.title) { toast("请填写方向名称"); return false; }
+        const payload = {
+          title: v.title, description: v.description,
+          skills: String(v.skills || "").split(/[,，]/).map(s => s.trim()).filter(Boolean),
+          jobs: v.jobs, prep: v.prep
+        };
+        if (editing) Object.assign(item, payload);
+        else data.directions.push({ id: uid(), ...payload });
+        save(editing ? "方向已更新" : "方向已添加");
+      }
+    });
+  }
+
+  function addEnglishPlanDialog() {
+    openModal({
+      title: "添加备考计划项",
+      fields: [{ name: "text", label: "计划内容", required: true, placeholder: "如：每天背 30 个单词" }],
+      onSubmit(v) {
+        if (!v.text) { toast("请填写内容"); return false; }
+        data.english.plan.push({ id: uid(), text: v.text, done: false });
+        save("已添加计划项");
+      }
+    });
+  }
+
+  /* ============================================================
+     23. 导入 / 导出 / 打印
+     ============================================================ */
+  function exportData() {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `AI工作台备份-${todayISO()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    toast("备份已导出到下载文件夹");
+  }
+
+  function importData(file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(String(reader.result));
+        if (!parsed || typeof parsed !== "object") throw new Error("格式不正确");
+        data = normalize(parsed);
+        applyTheme();
+        save("数据导入成功");
+      } catch (error) {
+        alert("导入失败：" + error.message);
+      }
+    };
+    reader.onerror = () => alert("读取文件失败");
+    reader.readAsText(file, "utf-8");
+  }
+
+  function blankData() {
+    const base = defaultData();
+    return {
+      ...base,
+      courses: [], roadmap: [], skills: [], projects: [], tasks: [],
+      studyLog: [], habits: [], competitions: [], papers: [],
+      milestones: [], directions: [], selectedDirection: "",
+      english: { ...base.english, plan: [] },
+      notes: [], weeks: []
+    };
+  }
+
+  /* ============================================================
+     24. 番茄钟
+     ============================================================ */
+  const TIMER_RING = 188.5; /* 2πr, r = 30 */
+  const timer = { phase: "focus", total: 25 * 60, remain: 25 * 60, running: false, handle: null, rounds: 0 };
+
+  function timerFmt(sec) {
+    const s = Math.max(0, Math.round(sec));
+    return `${pad2(Math.floor(s / 60))}:${pad2(s % 60)}`;
+  }
+  function timerUpdateUI() {
+    const timeEl = document.getElementById("timerTime");
+    const phaseEl = document.getElementById("timerPhase");
+    const ringEl = document.getElementById("timerRing");
+    const btn = document.getElementById("timerStartPause");
+    const meta = document.getElementById("timerMeta");
+    if (!timeEl) return;
+    timeEl.textContent = timerFmt(timer.remain);
+    const pct = timer.total ? timer.remain / timer.total : 0;
+    if (ringEl) {
+      ringEl.setAttribute("stroke-dashoffset", String(round(TIMER_RING * (1 - pct), 2)));
+      ringEl.setAttribute("stroke", timer.phase === "focus" ? "var(--green)" : "var(--blue)");
+    }
+    if (phaseEl) phaseEl.textContent = timer.phase === "focus" ? "专注中" : "休息一下";
+    if (btn) btn.textContent = timer.running ? "暂停" : (timer.remain === timer.total ? "开始" : "继续");
+    if (meta) meta.textContent = `今日专注 ${todayMinutes()} 分钟 · 已完成 ${timer.rounds} 轮`;
+  }
+  function timerSet(minutes, phase) {
+    timer.phase = phase || "focus";
+    timer.total = Math.max(1, Math.round(minutes * 60));
+    timer.remain = timer.total;
+    timerUpdateUI();
+  }
+  function timerToggle() {
+    timer.running = !timer.running;
+    if (timer.running) {
+      timer.handle = setInterval(() => {
+        timer.remain -= 1;
+        if (timer.remain <= 0) {
+          clearInterval(timer.handle);
+          timer.running = false;
+          timer.remain = 0;
+          timerUpdateUI();
+          if (timer.phase === "focus") {
+            timer.rounds += 1;
+            toast("专注结束，起来活动 5 分钟 ☕");
+            timerSet(5, "break");
+          } else {
+            toast("休息结束，开始下一轮专注");
+            timerSet(25, "focus");
+          }
+          return;
+        }
+        timerUpdateUI();
+      }, 1000);
+    } else {
+      clearInterval(timer.handle);
+    }
+    timerUpdateUI();
+  }
+  function timerReset() {
+    clearInterval(timer.handle);
+    timer.running = false;
+    timerSet(timer.phase === "focus" ? 25 : 5, timer.phase);
+    toast("计时器已重置");
+  }
+  function timerLogSession() {
+    const elapsed = timer.total - timer.remain;
+    const minutes = Math.max(1, Math.round(elapsed / 60));
+    const hours = round(minutes / 60, 2);
+    data.studyLog.push({
+      id: uid(), date: todayISO(), hours,
+      subject: "专注计时", note: `番茄钟 ${minutes} 分钟`
+    });
+    save(`已记入 ${minutes} 分钟专注时间`);
+  }
+  function timerInit() {
+    document.getElementById("timerToggle").addEventListener("click", () => {
+      document.getElementById("timerWidget").classList.toggle("show");
+    });
+    document.getElementById("timerStartPause").addEventListener("click", timerToggle);
+    document.getElementById("timerReset").addEventListener("click", timerReset);
+    document.getElementById("timerLog").addEventListener("click", timerLogSession);
+    document.getElementById("timerDuration").addEventListener("change", event => {
+      timerSet(num(event.target.value, 25), "focus");
+      toast(event.target.value + " 分钟专注已就绪");
+    });
+    timerUpdateUI();
+  }
+
+  /* ============================================================
+     25. 启动
+     ============================================================ */
+  function afterRender() {
+    /* 预留：渲染后的轻量副作用（当前由事件委托覆盖） */
+  }
+
+  function boot() {
+    applyTheme();
+    /* 先渲染首屏：即使后面某个可选控件缺失，也不会整页空白 */
+    render();
+    bindGlobalEvents();
+
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      data.settings.theme = data.settings.theme === "dark" ? "light" : "dark";
+      applyTheme();
+      save(data.settings.theme === "dark" ? "已切换到深色主题" : "已切换到浅色主题");
+    });
+    document.getElementById("exportButton").addEventListener("click", exportData);
+
+    /* 导入走事件委托，元素被重新渲染也依然有效 */
+    document.addEventListener("change", event => {
+      if (event.target && event.target.id === "importFile") {
+        const file = event.target.files && event.target.files[0];
+        if (file) importData(file);
+        event.target.value = "";
+      }
+    });
+
+    timerInit();
+    persist();
+  }
+
+  boot();
+  </script>
+</body>
+</html>
