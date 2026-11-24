@@ -1,5 +1,11 @@
 # AI 学习与职业工作台 —— 网页版提交包
 
+## 在线地址（直接浏览）
+
+**https://1704643233-crypto.github.io/ai-workbench/**
+
+无需下载、无需解压，任何浏览器打开即可。源码仓库：https://github.com/1704643233-crypto/ai-workbench
+
 ## 这是什么
 
 把原来桌面上的单文件作品 `AI工作台.html` 转成**可直接用网址浏览的网页版**。
